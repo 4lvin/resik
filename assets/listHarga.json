@@ -1,0 +1,44 @@
+{
+  "records":[
+    {
+      "sampah": "Kaleng Bekas",
+      "harga": "Rp 5.000/kg",
+      "nama": "Bank Sampah Merdeka",
+      "lastupdated": "13/04/2019",
+      "foto": "https://s.kaskus.id/r480x480/images/fjb/2015/05/06/botol_bekas_minuman_kaleng_cocacolaspritefantachingularutanetc_2402939_1430905385.jpg",
+      "kategori": "cekharga"
+    },
+    {
+      "sampah": "Plastik Bekas",
+      "harga": "Rp 3.500/kg",
+      "nama": "Bank Sampah Merdeka",
+      "lastupdated": "13/04/2019",
+      "foto": "https://www.linggasatu.com/wp-content/uploads/2019/03/Sampah-2.jpg",
+      "kategori": "cekharga"
+    },
+    {
+      "sampah": "Botol Plastik Bekas",
+      "harga": "Rp 4.500/kg",
+      "nama": "Bank Sampah Merdeka",
+      "lastupdated": "13/04/2019",
+      "foto": "http://4.bp.blogspot.com/-OqQOfBzdJ-c/VgVi5E09YLI/AAAAAAAAAKI/g1dQ_r4Vc30/s1600/PET-botol--bening.jpg",
+      "kategori": "cekharga"
+    },
+    {
+      "sampah": "Botol Kaca Bekas",
+      "harga": "Rp 5.500/kg",
+      "nama": "Bank Sampah Merdeka",
+      "lastupdated": "13/04/2019",
+      "foto": "http://lazuardi.id/wp-content/uploads/2017/04/bottle.jpg",
+      "kategori": "cekharga"
+    },
+    {
+      "sampah": "Kardus",
+      "harga": "Rp 2.025/kg",
+      "nama": "Bank Sampah Merdeka",
+      "lastupdated": "13/04/2019",
+      "foto": "https://s3.bukalapak.com/img/3762278942/w-1000/Kardus_bekas_untuk_packing_tambahan_agar_aman_diperjalanan.jpg",
+      "kategori": "cekharga"
+    }
+  ]
+}
