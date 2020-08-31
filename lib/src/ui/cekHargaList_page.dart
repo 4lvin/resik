@@ -28,7 +28,7 @@ class _ListHargaPageState extends State<ListHargaPage> {
   File bukti;
 
   _openGallery(BuildContext context) async {
-    var picture = await ImagePicker.pickImage(source: ImageSource.gallery,imageQuality: 50);
+    var picture = await ImagePicker.pickImage(source: ImageSource.gallery,imageQuality: 20);
     setState(() {
       bukti = picture;
     });
@@ -36,7 +36,7 @@ class _ListHargaPageState extends State<ListHargaPage> {
   }
 
   _openCamera(BuildContext context) async {
-    var picture = await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 50);
+    var picture = await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 20);
     setState(() {
       bukti = picture;
     });
