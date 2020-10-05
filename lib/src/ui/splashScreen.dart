@@ -8,18 +8,18 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  String login;
+  String token;
 
   @override
   void initState() {
-    getIsLogin().then((onValue) {
+    getToken().then((onValue) {
       setState(() {
-        login = onValue;
+        token = onValue;
       });
     });
     Timer(Duration(seconds: 2), () {
-      if (login == "1") {
-        Navigator.pushReplacementNamed(context, '/home');
+      if (token != null) {
+        Navigator.pushReplacementNamed(context, '/controller');
       } else {
         Navigator.pushReplacementNamed(context, '/login');
       }

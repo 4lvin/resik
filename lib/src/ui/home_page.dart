@@ -4,7 +4,11 @@ import 'package:b_sampah/src/ui/account_page.dart';
 import 'package:b_sampah/src/ui/cekHargaList_page.dart';
 import 'package:b_sampah/src/ui/cekTransaksi.dart';
 import 'package:b_sampah/src/ui/tarikTabunganPage.dart';
+import 'package:b_sampah/src/ui/utils/colors.dart';
+import 'package:b_sampah/src/ui/utils/fadeAnimation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   String _saldo;
   String nama;
   String id;
+  var formatter = NumberFormat('#,###,###', 'en_US');
 
   String greeting() {
     var hour = DateTime.now().hour;
@@ -34,25 +39,34 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     getId().then((onValue) {
       blocMember.getSaldo(onValue);
-      setState(() {
-        id = onValue;
-      });
+      if (this.mounted){
+        setState(() {
+          id = onValue;
+        });
+      }
     });
     getNama().then((value) {
-      setState(() {
-        nama = value;
-      });
+      if (this.mounted){
+        setState(() {
+          nama = value;
+        });
+      }
     });
     blocMember.resGetSaldo.listen((onData) {
-      setState(() {
-        _saldo = onData.data[0].saldo;
-      });
+      if (this.mounted){
+        setState(() {
+          _saldo = onData.data[0].saldo;
+        });
+      }
     });
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Colors.blueGrey));
     return new Scaffold(
       body: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (overscroll) {
@@ -66,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                 child: Stack(
                   children: <Widget>[
                     Container(
-                      height: MediaQuery.of(context).size.height / 4 - 20,
+                      height: MediaQuery.of(context).size.height / 3 - 20,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
@@ -93,23 +107,23 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       margin: EdgeInsets.only(bottom: 12, top: 40, left: 14),
                       child: Text(
-                        greeting(),
+                        greeting()??"",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
                     Container(
-                        margin: const EdgeInsets.only(top: 85.0, left: 18.0),
+                        margin: const EdgeInsets.only(top: 135.0, left: 18.0),
                         child: Center(
                             child: Text(
                           "Saldo",
-                          style: TextStyle(fontSize: 14, color: Colors.white),
+                          style: TextStyle(fontSize: 18, color: Colors.white),
                         ))),
                     Container(
-                        margin: const EdgeInsets.only(top: 105.0, left: 18.0),
+                        margin: const EdgeInsets.only(top: 155.0, left: 18.0),
                         child: Center(
                             child: Text(
-                          "Rp. ${_saldo == null ? "0" : _saldo}",
-                          style: TextStyle(fontSize: 21, color: Colors.white),
+                          "Rp. ${_saldo == null ? "0" : formatter.format(int.parse(_saldo))}",
+                          style: TextStyle(fontSize: 24, color: Colors.white),
                         ))),
                   ],
                 ),
@@ -123,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                     GridView.count(
                       crossAxisCount: 2,
                       primary: false,
-                      crossAxisSpacing: 2.0,
+                      crossAxisSpacing: 8.0,
                       mainAxisSpacing: 4.0,
                       shrinkWrap: true,
                       children: <Widget>[
@@ -131,9 +145,6 @@ class _HomePageState extends State<HomePage> {
                             'Tarik Saldo', 1, "assets/pos.png", linkTarik),
                         _buildCard('Cek Transaksi', 2, "assets/invoice.png",
                             linkCekTrx),
-                        _buildCard(
-                            'Jual Sampah', 3, "assets/tag.png", linkListHarga),
-                        _buildCard('Akun', 4, "assets/account.png", linkAkun),
                       ],
                     )
                   ],
@@ -144,16 +155,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  void linkListHarga() {
-    Navigator.of(context).push(new MaterialPageRoute(
-        builder: (BuildContext context) => new ListHargaPage(idAnggota: id)));
-  }
-
-  void linkAkun() {
-    Navigator.of(context).push(new MaterialPageRoute(
-        builder: (BuildContext context) => new AkunPage()));
   }
 
   void linkTarik() {
@@ -170,46 +171,54 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildCard(
       String name, int cardIndex, String images, dynamic kategori) {
-    return Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        elevation: 5.0,
-        child: GestureDetector(
-          onTap: () {
-            kategori();
-//            Navigator.of(context).push(new MaterialPageRoute(
-//                builder: (BuildContext context) =>
-//                new ListHargaPage(kategori: kategori,)));
-          },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 15.0),
-              Stack(children: <Widget>[
-                Container(
-                  height: 100.0,
-                  width: 100.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30.0),
-                    image: DecorationImage(image: AssetImage(images)),
-                  ),
-                ),
-              ]),
-              SizedBox(height: 9.0),
-              Text(
-                name,
-                style: TextStyle(
-                  fontFamily: 'Quicksand',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15.0,
-                ),
-              ),
-            ],
+    return FadeAnimation(
+      0.3,Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
           ),
-        ),
-        margin: cardIndex.isEven
-            ? EdgeInsets.fromLTRB(10.0, 0.0, 25.0, 10.0)
-            : EdgeInsets.fromLTRB(25.0, 0.0, 5.0, 10.0));
+          elevation: 5.0,
+          child: InkWell(
+            onTap: () {
+              kategori();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(18),
+                gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [Colors.grey[200],Colors.white]),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: 15.0),
+                  Stack(children: <Widget>[
+                    Container(
+                      height: 50.0,
+                      width: 50.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30.0),
+                        image: DecorationImage(image: AssetImage(images)),
+                      ),
+                    ),
+                  ]),
+                  SizedBox(height: 9.0),
+                  Text(
+                    name,
+                    style: TextStyle(
+                      fontFamily: 'Quicksand',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          margin: cardIndex.isEven
+              ? EdgeInsets.fromLTRB(15.0, 50.0, 30.0, 15.0)
+              : EdgeInsets.fromLTRB(30.0, 50.0, 15.0, 15.0)),
+    );
   }
 }

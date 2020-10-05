@@ -1,18 +1,18 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future setIsLogin(String value) async {
+Future setToken(String value) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.setString("isLogin", value);
+  return prefs.setString("token", value);
 }
-Future getIsLogin() async {
+Future getToken() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  return prefs.getString("isLogin");
+  return prefs.getString("token");
 }
-Future rmvIsLogin() async {
+Future rmvToken() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  return prefs.remove("isLogin");
+  return prefs.remove("token");
 }
 
 Future setNama(String value) async {
@@ -43,4 +43,19 @@ Future rmvId() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
   return prefs.remove("id");
+}
+
+Future setIdDesa(String value) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.setString("idDesa", value);
+}
+Future getIdDesa() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  return prefs.getString("idDesa");
+}
+Future rmvIdDesa() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  return prefs.remove("idDesa");
 }

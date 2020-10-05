@@ -1,11 +1,11 @@
 // To parse this JSON data, do
 //
-//     final getSaldoModel = getSaldoModelFromJson(jsonString);
+//     final getIdCheckModel = getIdCheckModelFromJson(jsonString);
 
 import 'dart:convert';
 
-class GetSaldoModel {
-  GetSaldoModel({
+class GetIdCheckModel {
+  GetIdCheckModel({
     this.status,
     this.data,
     this.message,
@@ -15,11 +15,11 @@ class GetSaldoModel {
   List<Datum> data;
   String message;
 
-  factory GetSaldoModel.fromRawJson(String str) => GetSaldoModel.fromJson(json.decode(str));
+  factory GetIdCheckModel.fromRawJson(String str) => GetIdCheckModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory GetSaldoModel.fromJson(Map<String, dynamic> json) => GetSaldoModel(
+  factory GetIdCheckModel.fromJson(Map<String, dynamic> json) => GetIdCheckModel(
     status: json["status"],
     data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
     message: json["message"],
@@ -35,19 +35,11 @@ class GetSaldoModel {
 class Datum {
   Datum({
     this.idAnggota,
-    this.namaAnggota,
-    this.totalSetor,
-    this.totalTukar,
-    this.totalBerat,
-    this.saldo,
+    this.pin,
   });
 
   String idAnggota;
-  String namaAnggota;
-  String totalSetor;
-  String totalTukar;
-  String totalBerat;
-  String saldo;
+  String pin;
 
   factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
 
@@ -55,19 +47,11 @@ class Datum {
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     idAnggota: json["id_anggota"],
-    namaAnggota: json["nama_anggota"],
-    totalSetor: json["total_setor"],
-    totalTukar: json["total_tukar"],
-    totalBerat: json["total_berat"],
-    saldo: json["saldo"],
+    pin: json["pin"],
   );
 
   Map<String, dynamic> toJson() => {
     "id_anggota": idAnggota,
-    "nama_anggota": namaAnggota,
-    "total_setor": totalSetor,
-    "total_tukar": totalTukar,
-    "total_berat": totalBerat,
-    "saldo": saldo,
+    "pin": pin,
   };
 }

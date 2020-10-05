@@ -1,18 +1,19 @@
+
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 class Dialogs {
   static ProgressDialog pr;
-   static Future showLoading(
+  static Future showLoading(
       BuildContext context) async {
 
     pr = new ProgressDialog(context);
-    pr = new ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+    pr = new ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: false);
     pr.style(
         message: 'Tunggu Sebentar...',
         borderRadius: 10.0,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black45,
         progressWidget: Lottie.asset(
           'assets/loading.json',
           width: 200,
@@ -24,31 +25,19 @@ class Dialogs {
         progress: 0.0,
         maxProgress: 100.0,
         progressTextStyle: TextStyle(
-            color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w400),
+            color: Colors.black, fontSize: 12.0, fontWeight: FontWeight.w400),
         messageTextStyle: TextStyle(
-            color: Colors.blueGrey, fontSize: 16.0, fontWeight: FontWeight.w600)
+            color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.w600)
     );
-      return pr.show();
+    return pr.show();
   }
   static Future dismiss(
       BuildContext context) async {
 
     pr = new ProgressDialog(context);
-    pr = new ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
-    pr.style(
-        message: 'Tunggu Sebentar...',
-        borderRadius: 10.0,
-        backgroundColor: Colors.white,
-        progressWidget: CircularProgressIndicator(),
-        elevation: 10.0,
-        insetAnimCurve: Curves.easeInOut,
-        progress: 0.0,
-        maxProgress: 100.0,
-        progressTextStyle: TextStyle(
-            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
-        messageTextStyle: TextStyle(
-            color: Colors.white, fontSize: 19.0, fontWeight: FontWeight.w600)
-    );
-    return pr.hide();
+    pr = new ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: false);
+    return pr.hide().whenComplete((){
+      print("hide success");
+    });
   }
 }

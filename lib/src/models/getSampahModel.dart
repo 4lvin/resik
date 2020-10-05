@@ -5,38 +5,34 @@
 import 'dart:convert';
 
 class GetSampahModel {
-  List<Datum> data;
-  Message message;
-
   GetSampahModel({
+    this.status,
     this.data,
     this.message,
   });
+
+  bool status;
+  List<Datum> data;
+  String message;
 
   factory GetSampahModel.fromRawJson(String str) => GetSampahModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory GetSampahModel.fromJson(Map<String, dynamic> json) => GetSampahModel(
+    status: json["status"],
     data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-    message: Message.fromJson(json["message"]),
+    message: json["message"],
   );
 
   Map<String, dynamic> toJson() => {
+    "status": status,
     "data": List<dynamic>.from(data.map((x) => x.toJson())),
-    "message": message.toJson(),
+    "message": message,
   };
 }
 
 class Datum {
-  String idSampah;
-  String idJenis;
-  String jenisSampah;
-  String namaSampah;
-  String hargaSetor;
-  String hargaJual;
-  String image;
-
   Datum({
     this.idSampah,
     this.idJenis,
@@ -46,6 +42,14 @@ class Datum {
     this.hargaJual,
     this.image,
   });
+
+  String idSampah;
+  String idJenis;
+  String jenisSampah;
+  String namaSampah;
+  String hargaSetor;
+  String hargaJual;
+  String image;
 
   factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
 
@@ -69,25 +73,5 @@ class Datum {
     "harga_setor": hargaSetor,
     "harga_jual": hargaJual,
     "image": image,
-  };
-}
-
-class Message {
-  String massage;
-
-  Message({
-    this.massage,
-  });
-
-  factory Message.fromRawJson(String str) => Message.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-    massage: json["massage"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "massage": massage,
   };
 }

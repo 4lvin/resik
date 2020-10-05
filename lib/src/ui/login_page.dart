@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:b_sampah/src/blocs/memberBloc.dart';
 import 'package:b_sampah/src/pref/preference.dart';
+import 'package:b_sampah/src/ui/cekPinPage.dart';
+import 'package:b_sampah/src/ui/utils/colors.dart';
 import 'package:b_sampah/src/ui/utils/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -22,146 +25,192 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Builder(
-        builder: (context) => SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height ,
-            child: Stack(
-              children: <Widget>[
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height ,
+        body: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.blueGrey, Colors.white])),
+                child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                        margin: EdgeInsets.only(top: 90),
+                        child: Image.asset(
+                          "assets/logo.png",
+                          scale: 5,
+                        ))),
+              ),
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                      margin: EdgeInsets.only(bottom: 12),
+                      child: Text("V 1.0.1",style: TextStyle(color: Colors.grey),))),
+              Align(
+                alignment: Alignment.center,
+                child: AnimatedContainer(
+                  margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/4),
+                  width: MediaQuery.of(context).size.width - 50,
+                  height: MediaQuery.of(context).size.height / 2 - 130,
+                  duration: Duration(milliseconds: 400),
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Colors.blueGrey, Colors.white])),
-                  child: Align(alignment:Alignment.topCenter,child: Container(margin:EdgeInsets.only(top: 50),child: Image.asset("assets/logo.png",scale: 5,))),
-                    ),
-                Align(
-                  alignment: Alignment.center,
-                  child: AnimatedContainer(
-                    margin: EdgeInsets.only(top: 80),
-                    width: MediaQuery.of(context).size.width - 50,
-                    height: MediaQuery.of(context).size.height/2 - 70,
-                    duration: Duration(milliseconds: 400),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(14),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Stack(
-                      children: <Widget>[
-                        SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Center(
-                                  child: Container(
-                                    margin: EdgeInsets.only(top: 20),
-                                    width: MediaQuery.of(context).size.width - 100,
-                                    child: TextField(
-                                      controller: _nik,
-                                      cursorColor: Color(0xff740e13),
-                                      style: TextStyle(fontSize: 16),
-                                      decoration: InputDecoration(
-                                        errorText: _nik.text.length < 3 && _validate
-                                            ? 'NIK harus diisi !'
-                                            : null,
-                                        labelText: "NIK",
-                                      ),
-                                      keyboardType: TextInputType.number,
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 3,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    children: <Widget>[
+                      SingleChildScrollView(
+                        child: Column(
+                          children: <Widget>[
+                            Center(
+                                child: Container(
+                              margin: EdgeInsets.only(top: 20),
+                              width: MediaQuery.of(context).size.width - 100,
+                              child: TextField(
+                                controller: _nik,
+                                cursorColor: Color(0xff740e13),
+                                style: TextStyle(fontSize: 16),
+                                decoration: InputDecoration(
+                                  errorText: _nik.text.length < 3 && _validate
+                                      ? 'No KK harus diisi !'
+                                      : null,
+                                  labelText: "No KK",
+                                ),
+                                keyboardType: TextInputType.number,
+                              ),
+                            )),
+                            // Center(
+                            //     child: Container(
+                            //   margin: EdgeInsets.only(top: 10),
+                            //   width: MediaQuery.of(context).size.width - 100,
+                            //   child: TextField(
+                            //     obscureText: passwordVisible,
+                            //     controller: _password,
+                            //     cursorColor: Color(0xff740e13),
+                            //     style: TextStyle(fontSize: 16),
+                            //     decoration: InputDecoration(
+                            //       suffixIcon: IconButton(
+                            //         icon: Icon(
+                            //           passwordVisible
+                            //               ? Icons.visibility_off
+                            //               : Icons.visibility,
+                            //           color: Theme.of(context).backgroundColor,
+                            //         ),
+                            //         onPressed: () {
+                            //           setState(() {
+                            //             passwordVisible = !passwordVisible;
+                            //           });
+                            //         },
+                            //       ),
+                            //       errorText:
+                            //           _password.text.length < 3 && _validate
+                            //               ? 'Password harus diisi !'
+                            //               : null,
+                            //       labelText: "Password",
+                            //     ),
+                            //   ),
+                            // )),
+                            SizedBox(height: 27,),
+                            Material(
+                              shadowColor: Colors.grey[50],
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0)),
+                              elevation: 9.0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: colorses.hijauDasar,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Material(
+                                  type: MaterialType.transparency,
+                                  elevation: 9.0,
+                                  color: Colors.transparent,
+                                  shadowColor: Colors.grey[50],
+                                  child: InkWell(
+                                    splashColor: Colors.white30,
+                                    customBorder: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
-                                  )),
-                              Center(
-                                  child: Container(
-                                    margin: EdgeInsets.only(top: 10),
-                                    width: MediaQuery.of(context).size.width - 100,
-                                    child: TextField(
-                                      obscureText: passwordVisible,
-                                      controller: _password,
-                                      cursorColor: Color(0xff740e13),
-                                      style: TextStyle(fontSize: 16),
-                                      decoration: InputDecoration(
-                                        suffixIcon: IconButton(
-                                          icon: Icon(
-                                            passwordVisible
-                                                ? Icons.visibility_off
-                                                : Icons.visibility,
-                                            color: Theme.of(context).backgroundColor,
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              passwordVisible = !passwordVisible;
-                                            });
-                                          },
-                                        ),
-                                        errorText: _password.text.length < 3 && _validate
-                                            ? 'Password harus diisi !'
-                                            : null,
-                                        labelText: "Password",
-                                      ),
-                                    ),
-                                  )),
-                             Center(
-                                child: InkWell(
-                                  onTap: (){
-                                    if (_nik.text.isEmpty || _password.text.isEmpty) {
-                                      setState(() {
-                                        _validate = true;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        _validate = false;
-                                        Dialogs.showLoading(context);
-                                        blocMember.checkId(_nik.text, _password.text);
-                                        blocMember.getUser.listen((onData) {
-                                          if (onData.status == true) {
-                                            Dialogs.dismiss(context);
-                                            setIsLogin("1");
-                                            setNama(onData.data.namaAnggota);
-                                            setId(onData.data.idAnggota);
-                                            Navigator.pushReplacementNamed(context, '/home');
-                                          } else {
-                                            Dialogs.dismiss(context);
-                                            FocusScope.of(context).requestFocus(new FocusNode());
-                                            showInSnackBar(context, "User atau Password salah!");
-                                          }
+                                    onTap: () {
+                                      if (_nik.text.isEmpty) {
+                                        setState(() {
+                                          _validate = true;
                                         });
-                                      });
-                                    }
-                                  },
-                                  child: AnimatedContainer(
-                                    duration: Duration(milliseconds: 500),
-                                    margin: EdgeInsets.only(top: 40),
-                                    padding: EdgeInsets.only(top:10,bottom: 10,left: 50,right: 50),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(14),
-                                      color: Colors.blue
+                                      } else {
+                                          Dialogs.showLoading(context);
+                                          _validate = false;
+                                          blocMember.checkId(_nik.text);
+                                          blocMember.getUser.listen((onData) {
+                                            if (onData.status == true) {
+                                              Dialogs.dismiss(context);
+                                              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                                  settings: const RouteSettings(name: '/codeCallPage'),
+                                                  builder: (context) => CekPinPage(
+                                                    noKk: onData.data[0].idAnggota,
+                                                  )));
+                                            } else {
+                                              Future.delayed(Duration(seconds: 2)).then((value) {
+                                                Dialogs.dismiss(context);
+                                              });
+                                              FocusScope.of(context)
+                                                  .requestFocus(
+                                                      new FocusNode());
+                                              Toast.show("User tidak ditemukan!", context,
+                                                  duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+                                            }
+                                          }).onError((e){
+                                            Future.delayed(Duration(seconds: 2)).then((value) {
+                                              Dialogs.dismiss(context);
+                                            });
+                                            FocusScope.of(context)
+                                                .requestFocus(
+                                                new FocusNode());
+                                            Toast.show(e.toString(), context,
+                                                duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+                                          });
+                                      }
+                                    },
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width -
+                                          70,
+                                      height: 50,
+                                      child: Center(
+                                          child: Text(
+                                        "MASUK",
+                                        style: TextStyle(color: Colors.white),
+                                      )),
                                     ),
-                                    child: Text("LOGIN",style: TextStyle(color: Colors.white),),
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(height: 12,),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      )
+      ),
     );
   }
 }

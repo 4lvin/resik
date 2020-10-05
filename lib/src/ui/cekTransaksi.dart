@@ -105,7 +105,7 @@ class _CekTransaksiState extends State<CekTransaksi> {
     return snapshot.data.data.isNotEmpty?SmartRefresher(
       enablePullDown: true,
       enablePullUp: true,
-      header: WaterDropHeader(),
+      header: WaterDropMaterialHeader(),
       footer: CustomFooter(
         builder: (BuildContext context,LoadStatus mode){
           Widget body ;
@@ -222,7 +222,7 @@ class _CekTransaksiState extends State<CekTransaksi> {
                               title: "Scan me!",
                               subtitle: Center(
                                 child: QrImage(
-                                  data: snapshot.data.data[i].keterangan,
+                                  data: snapshot.data.data[i].id,
                                   version: QrVersions.auto,
                                   size: 200.0,
                                 ),

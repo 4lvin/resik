@@ -1,4 +1,5 @@
 
+import 'package:b_sampah/src/ui/controllerPage.dart';
 import 'package:b_sampah/src/ui/home_page.dart';
 import 'package:b_sampah/src/ui/login_page.dart';
 import 'package:b_sampah/src/ui/splashScreen.dart';
@@ -15,7 +16,7 @@ class App extends StatelessWidget {
           body: SplashScreen(),
         ),
         routes: <String, WidgetBuilder>{
-          '/home': (BuildContext context) => new HomePage(),
+          '/controller': (BuildContext context) => new ControllerPage(),
           '/login': (BuildContext context) => new LoginPage(),
         });
   }
