@@ -174,7 +174,7 @@ class _PengaturanPageState extends State<PengaturanPage> {
             rmvIdDesa();
             rmvId();
             Navigator.of(context).pop();
-            Navigator.pushReplacementNamed(context, '/login');
+            Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false);
             return false;
           }
         });

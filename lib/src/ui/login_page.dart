@@ -87,11 +87,11 @@ class _LoginPageState extends State<LoginPage> {
                                 style: TextStyle(fontSize: 16),
                                 decoration: InputDecoration(
                                   errorText: _nik.text.length < 3 && _validate
-                                      ? 'No KK harus diisi !'
+                                      ? 'No KK/kode nasabah harus diisi !'
                                       : null,
-                                  labelText: "No KK",
+                                  labelText: "No KK/kode nasabah",
                                 ),
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.text,
                               ),
                             )),
                             // Center(

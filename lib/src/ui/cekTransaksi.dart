@@ -104,15 +104,12 @@ class _CekTransaksiState extends State<CekTransaksi> {
   Widget buildList(AsyncSnapshot<GetHistoryModel> snapshot) {
     return snapshot.data.data.isNotEmpty?SmartRefresher(
       enablePullDown: true,
-      enablePullUp: true,
+      enablePullUp: false,
       header: WaterDropMaterialHeader(),
       footer: CustomFooter(
         builder: (BuildContext context,LoadStatus mode){
           Widget body ;
-          if(mode==LoadStatus.idle){
-            body =  Text("pull up load");
-          }
-          else if(mode==LoadStatus.loading){
+         if(mode==LoadStatus.loading){
             body =  CupertinoActivityIndicator();
           }
           else if(mode == LoadStatus.failed){

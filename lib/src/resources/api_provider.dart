@@ -16,7 +16,8 @@ import 'dart:convert';
 import 'dart:io';
 
 class ApiProvider {
-  String url = "http://jongjava.tech/banksampah_ws/restapi";
+  // String url = "http://jongjava.tech/banksampah_ws/restapi";
+  String url = "https://banksampahpasuruan.com/banksampah_ws/restapi";
 
   Future<GetSampahModel> getSampah(String id) async {
     var body = jsonEncode({'id_desa': id});

@@ -47,8 +47,8 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
         id = onValue;
       });
     });
-    getToken().then((value){
-      token=value;
+    getToken().then((value) {
+      token = value;
     });
     // TODO: implement initState
     super.initState();
@@ -92,18 +92,15 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                 ),
                 StreamBuilder(
                     stream: blocListSampah.listPenukaran,
-                    builder:
-                        (context, AsyncSnapshot<GetPenukaranModel> snapshot) {
+                    builder: (context, AsyncSnapshot<GetPenukaranModel> snapshot) {
                       if (snapshot.hasData) {
                         return Expanded(
                           child: Padding(
-                            padding:
-                                const EdgeInsets.only(left: 8.0, right: 8.0),
+                            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                             child: GridView.builder(
                                 primary: false,
                                 itemCount: snapshot.data.data.length,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,
                                   crossAxisSpacing: 16.0,
                                   mainAxisSpacing: 8.0,
@@ -121,12 +118,9 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                     child: Container(
                                       height: 50,
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
+                                        borderRadius: BorderRadius.circular(30),
                                         gradient: LinearGradient(
-                                            begin: Alignment.bottomCenter,
-                                            end: Alignment.topCenter,
-                                            colors: colorses.gradient),
+                                            begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: colorses.gradient),
                                         boxShadow: [
                                           BoxShadow(
                                             color: Colors.grey[400],
@@ -138,27 +132,25 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                             ),
                                           )
                                         ],
-                                          ),
+                                      ),
                                       child: Column(
                                         children: <Widget>[
-                                          SizedBox(height: 16,),
+                                          SizedBox(
+                                            height: 16,
+                                          ),
                                           Container(
                                             height: 50.0,
                                             width: 50.0,
                                             decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
+                                              borderRadius: BorderRadius.circular(8.0),
                                               image: DecorationImage(
-                                                  image: NetworkImage(snapshot
-                                                      .data.data[i].icon),
-                                                  fit: BoxFit.cover),
+                                                  image: NetworkImage(snapshot.data.data[i].icon), fit: BoxFit.cover),
                                             ),
                                           ),
                                           Center(
                                             child: Text(
                                               snapshot.data.data[i].keterangan,
-                                              style: TextStyle(
-                                                  color: Colors.white),
+                                              style: TextStyle(color: Colors.white),textAlign: TextAlign.center,
                                             ),
                                           ),
                                         ],
@@ -183,16 +175,14 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                 : Container(),
             selected
                 ? AnimatedContainer(
-                    margin: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height / 2 - 120),
+                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2 - 120),
                     duration: Duration(seconds: 2),
                     curve: Curves.fastLinearToSlowEaseIn,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          padding: EdgeInsets.only(
-                              top: 16, left: 12, right: 12, bottom: 12),
+                          padding: EdgeInsets.only(top: 16, left: 12, right: 12, bottom: 12),
                           width: MediaQuery.of(context).size.width - 50,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(18),
@@ -220,12 +210,9 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                     ? Center(
                                         child: Container(
                                         margin: EdgeInsets.only(top: 5),
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                100,
+                                        width: MediaQuery.of(context).size.width - 100,
                                         child: TextField(
-                                          textCapitalization:
-                                              TextCapitalization.sentences,
+                                          textCapitalization: TextCapitalization.sentences,
                                           controller: _noHp,
                                           cursorColor: Color(0xff740e13),
                                           style: TextStyle(fontSize: 16),
@@ -257,8 +244,7 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                     items: _nominal.map((location) {
                                       return DropdownMenuItem(
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           children: <Widget>[
                                             // Icon(Icons.done),
                                             SizedBox(width: 10),
@@ -273,8 +259,7 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 18.0),
+                                  padding: const EdgeInsets.symmetric(vertical: 18.0),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
@@ -286,22 +271,15 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                         },
                                         child: Container(
                                           margin: EdgeInsets.only(right: 15.0),
-                                          width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2 -
-                                              50,
-                                          padding: EdgeInsets.only(
-                                              top: 15.0, bottom: 15.0),
+                                          width: MediaQuery.of(context).size.width / 2 - 50,
+                                          padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                                           decoration: BoxDecoration(
                                             color: Colors.red[300],
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
+                                            borderRadius: BorderRadius.circular(12.0),
                                           ),
                                           child: Text(
                                             "BATAL",
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Colors.white),
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -309,65 +287,43 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                       InkWell(
                                         onTap: () {
                                           if (_selectedNominal == null) {
-                                            Toast.show("Nominal harus di isi!",
-                                                context,
-                                                duration: Toast.LENGTH_LONG,
-                                                gravity: Toast.CENTER);
-                                          } else if (int.parse(widget.saldo) <
-                                              int.parse(_selectedNominal)) {
+                                            Toast.show("Nominal harus di isi!", context,
+                                                duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                          } else if (int.parse(widget.saldo) < int.parse(_selectedNominal)) {
                                             SweetAlert.show(
                                               context,
                                               title: "Peringatan",
                                               subtitle: Text(
                                                 "Saldo anda kurang",
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.grey),
+                                                style: TextStyle(fontSize: 16, color: Colors.grey),
                                               ),
                                               style: SweetAlertStyle.confirm,
                                             );
                                           } else {
                                             Dialogs.showLoading(context);
-                                            String tgl = DateTime.now()
-                                                    .year
-                                                    .toString() +
+                                            String tgl = DateTime.now().year.toString() +
                                                 "-" +
-                                                DateTime.now()
-                                                    .month
-                                                    .toString() +
+                                                DateTime.now().month.toString() +
                                                 "-" +
                                                 DateTime.now().day.toString();
-                                            blocMember.penukaran(
-                                                id,
-                                                idPenukaran,
-                                                idDesa,
-                                                tgl,
-                                                int.parse(_selectedNominal),
-                                                _noHp.text.toString(),
-                                                token);
-                                            blocMember.resGetPenukaran
-                                                .listen((onData) {
+                                            blocMember.penukaran(id, idPenukaran, idDesa, tgl, int.parse(_selectedNominal),
+                                                _noHp.text.toString(), token);
+                                            blocMember.resGetPenukaran.listen((onData) {
                                               if (onData.status == true) {
                                                 SweetAlert.show(context,
                                                     title: "Success",
                                                     subtitle: Center(
                                                       child: Text(
                                                         "Permintaan anda sedang di proses admin\n terimakasih",
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            color: Colors.grey),
-                                                        textAlign:
-                                                            TextAlign.center,
+                                                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                                                        textAlign: TextAlign.center,
                                                       ),
                                                     ),
-                                                    style:
-                                                        SweetAlertStyle.success,
-                                                    showCancelButton: false,
-                                                    onPress: (bool isConfirm) {
+                                                    style: SweetAlertStyle.success,
+                                                    showCancelButton: false, onPress: (bool isConfirm) {
                                                   if (isConfirm) {
-                                                    Navigator
-                                                        .pushReplacementNamed(
-                                                            context, '/controller');
+                                                    Navigator.of(context)
+                                                        .pushNamedAndRemoveUntil('/controller', (Route<dynamic> route) => false);
                                                     return false;
                                                   }
                                                 });
@@ -376,22 +332,15 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                           }
                                         },
                                         child: Container(
-                                          width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2 -
-                                              50,
-                                          padding: EdgeInsets.only(
-                                              top: 15.0, bottom: 15.0),
+                                          width: MediaQuery.of(context).size.width / 2 - 50,
+                                          padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                                           decoration: BoxDecoration(
                                             color: Colors.green[300],
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
+                                            borderRadius: BorderRadius.circular(12.0),
                                           ),
                                           child: Text(
                                             "TUKAR",
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                            style: TextStyle(color: Colors.white),
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
