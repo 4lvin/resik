@@ -95,7 +95,7 @@ class _PengaturanPageState extends State<PengaturanPage> {
                   final RenderBox box =
                   context.findRenderObject();
                   Share.share(
-                      'Download aplikasi Resik disini https://bit.ly/bsampah',
+                      'Download aplikasi Resik disini https://play.google.com/store/apps/details?id=com.jongjava.b_sampah',
                       sharePositionOrigin:
                       box.localToGlobal(
                           Offset.zero) &
@@ -149,7 +149,7 @@ class _PengaturanPageState extends State<PengaturanPage> {
             ),
             Center(
                 child: Text(
-                  "versi 1.0.1",
+                  "versi 1.0.5",
                   style:
                   TextStyle(color: Colors.grey),
                 ))

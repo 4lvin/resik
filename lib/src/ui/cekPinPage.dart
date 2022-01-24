@@ -12,8 +12,9 @@ import 'package:passcode_screen/passcode_screen.dart';
 import 'package:toast/toast.dart';
 
 class CekPinPage extends StatefulWidget {
-  CekPinPage({this.noKk});
+  CekPinPage({this.noKk,this.token});
   String noKk;
+  String token;
   @override
   _CekPinPageState createState() => _CekPinPageState();
 }
@@ -26,7 +27,7 @@ class _CekPinPageState extends State<CekPinPage> {
   final StreamController<bool> _verificationNotifier = StreamController<bool>.broadcast();
   Future _onPasscodeEntered(String enteredPasscode) async{
     Dialogs.showLoading(context);
-    blocMember.checkPin(widget.noKk, enteredPasscode);
+    blocMember.checkPin(widget.noKk, enteredPasscode,widget.token);
     blocMember.getPin.listen((onData){
       if(onData.status == true){
         setToken(onData.data.idToken);

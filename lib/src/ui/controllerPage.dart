@@ -58,7 +58,7 @@ class _ControllerPageState extends State<ControllerPage> {
             },
             children: <Widget>[HomePage(), AkunPage()],
             physics:
-                NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.
+            NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.
           ),
         ),
       ),

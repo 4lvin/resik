@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:b_sampah/src/pref/preference.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -10,6 +12,22 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   String token;
 
+  _authCheckSession() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+          if (token != null) {
+            Navigator.pushReplacementNamed(context, '/controller');
+          } else {
+            Navigator.pushReplacementNamed(context, '/login');
+          }
+      }
+    } on SocketException catch (_) {
+      Toast.show("Cek Internet Anda", context,
+          duration: 7, gravity: Toast.BOTTOM);
+    }
+  }
   @override
   void initState() {
     getToken().then((onValue) {
@@ -18,11 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
       });
     });
     Timer(Duration(seconds: 2), () {
-      if (token != null) {
-        Navigator.pushReplacementNamed(context, '/controller');
-      } else {
-        Navigator.pushReplacementNamed(context, '/login');
-      }
+      _authCheckSession();
     });
     super.initState();
   }

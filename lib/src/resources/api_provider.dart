@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:async/async.dart';
 import 'package:b_sampah/src/models/getHistoryModel.dart';
 import 'package:b_sampah/src/models/getIdCheckModel.dart';
+import 'package:b_sampah/src/models/getInformasiModel.dart';
 import 'package:b_sampah/src/models/getPenukaranModel.dart';
 import 'package:b_sampah/src/models/getResponseSetorModel.dart';
 import 'dart:io';
@@ -17,7 +18,7 @@ import 'dart:io';
 
 class ApiProvider {
   // String url = "http://jongjava.tech/banksampah_ws/restapi";
-  String url = "https://banksampahpasuruan.com/banksampah_ws/restapi";
+  String url = "https://resik.co.id/banksampah_ws/restapi";
 
   Future<GetSampahModel> getSampah(String id) async {
     var body = jsonEncode({'id_desa': id});
@@ -73,8 +74,8 @@ class ApiProvider {
     }
   }
 
-  Future pinCheck(String id, String pin) async {
-    var body = jsonEncode({'id_anggota': id, 'pin': pin});
+  Future pinCheck(String id, String pin,String token) async {
+    var body = jsonEncode({'id_anggota': id, 'pin': pin, 'token':token});
     try {
       final checkId = await client
           .post("$url/C_user/get_pin",
@@ -306,6 +307,18 @@ class ApiProvider {
       throw Exception("request salah");
     } on TimeoutException catch (e) {
       throw Exception(e.toString());
+    }
+  }
+
+  Future getInformasi(String idDesa) async {
+    var body = jsonEncode({'id_desa': idDesa});
+    final history = await client.post("$url/C_user/informasi",
+        headers: {"Content-Type": "application/json"}, body: body);
+    print(history.body);
+    if (history.statusCode == 200) {
+      return GetInformasiModel.fromJson(json.decode(history.body));
+    } else {
+      throw Exception('Failed to load History');
     }
   }
 }

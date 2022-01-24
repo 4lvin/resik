@@ -25,6 +25,7 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
   String idDesa;
   String kategori;
   String token;
+  bool _validate=false;
   List<String> _nominal = [
     '2000',
     '5000',
@@ -35,6 +36,7 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
   ];
   String _selectedNominal;
   var _noHp = TextEditingController();
+  var _nominalText = TextEditingController();
 
   @override
   void initState() {
@@ -230,7 +232,7 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                   padding: const EdgeInsets.only(left: 12.0),
                                   child: Text("Nominal"),
                                 ),
-                                Container(
+                                jenis == "Pulsa"?Container(
                                   margin: EdgeInsets.only(left: 22),
                                   width: 280,
                                   child: DropdownButton(
@@ -257,7 +259,42 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                       );
                                     }).toList(),
                                   ),
+                                ):Container(),
+                            Column(
+                              children: <Widget>[
+                                InkWell(
+                                  onTap:(){
+                                   setState(() {
+                                     _nominalText.text = widget.saldo;
+                                   });
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: colorses.merahLight,
+                                      borderRadius: BorderRadius.circular(12)
+                                    ),
+                                    child: Text("Tukar semua saldo",style: TextStyle(color: Colors.white),),
+                                  ),
                                 ),
+                              ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 22),
+                              width: 280,
+                              child: TextField(
+                                controller: _nominalText,
+                                cursorColor: Color(0xff740e13),
+                                style: TextStyle(fontSize: 16),
+                                decoration: InputDecoration(
+                                  errorText: _nominalText.text.length < 3 && _validate
+                                      ? 'Nominal harus diisi !'
+                                      : null,
+                                  labelText: "Nominal",
+                                ),
+                                keyboardType: TextInputType.number,
+                              ),
+                            ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 18.0),
                                   child: Row(
@@ -286,49 +323,97 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          if (_selectedNominal == null) {
-                                            Toast.show("Nominal harus di isi!", context,
-                                                duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                                          } else if (int.parse(widget.saldo) < int.parse(_selectedNominal)) {
-                                            SweetAlert.show(
-                                              context,
-                                              title: "Peringatan",
-                                              subtitle: Text(
-                                                "Saldo anda kurang",
-                                                style: TextStyle(fontSize: 16, color: Colors.grey),
-                                              ),
-                                              style: SweetAlertStyle.confirm,
-                                            );
-                                          } else {
-                                            Dialogs.showLoading(context);
-                                            String tgl = DateTime.now().year.toString() +
-                                                "-" +
-                                                DateTime.now().month.toString() +
-                                                "-" +
-                                                DateTime.now().day.toString();
-                                            blocMember.penukaran(id, idPenukaran, idDesa, tgl, int.parse(_selectedNominal),
-                                                _noHp.text.toString(), token);
-                                            blocMember.resGetPenukaran.listen((onData) {
-                                              if (onData.status == true) {
-                                                SweetAlert.show(context,
-                                                    title: "Success",
-                                                    subtitle: Center(
-                                                      child: Text(
-                                                        "Permintaan anda sedang di proses admin\n terimakasih",
-                                                        style: TextStyle(fontSize: 16, color: Colors.grey),
-                                                        textAlign: TextAlign.center,
+                                          if(jenis == "Pulsa"){
+                                            if (_selectedNominal == null) {
+                                              Toast.show("Nominal harus di isi!", context,
+                                                  duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                            }else if (int.parse(widget.saldo) < int.parse(_selectedNominal)) {
+                                              SweetAlert.show(
+                                                context,
+                                                title: "Peringatan",
+                                                subtitle: Text(
+                                                  "Saldo anda kurang",
+                                                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                                                ),
+                                                style: SweetAlertStyle.confirm,
+                                              );
+                                            } else {
+                                              Dialogs.showLoading(context);
+                                              String tgl = DateTime.now().year.toString() +
+                                                  "-" +
+                                                  DateTime.now().month.toString() +
+                                                  "-" +
+                                                  DateTime.now().day.toString();
+                                              blocMember.penukaran(id, idPenukaran, idDesa, tgl, int.parse(_selectedNominal),
+                                                  _noHp.text.toString(), token);
+                                              blocMember.resGetPenukaran.listen((onData) {
+                                                if (onData.status == true) {
+                                                  SweetAlert.show(context,
+                                                      title: "Success",
+                                                      subtitle: Center(
+                                                        child: Text(
+                                                          "Permintaan anda sedang di proses admin\n terimakasih",
+                                                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                                                          textAlign: TextAlign.center,
+                                                        ),
                                                       ),
-                                                    ),
-                                                    style: SweetAlertStyle.success,
-                                                    showCancelButton: false, onPress: (bool isConfirm) {
-                                                  if (isConfirm) {
-                                                    Navigator.of(context)
-                                                        .pushNamedAndRemoveUntil('/controller', (Route<dynamic> route) => false);
-                                                    return false;
-                                                  }
-                                                });
-                                              }
-                                            });
+                                                      style: SweetAlertStyle.success,
+                                                      showCancelButton: false, onPress: (bool isConfirm) {
+                                                        if (isConfirm) {
+                                                          Navigator.of(context)
+                                                              .pushNamedAndRemoveUntil('/controller', (Route<dynamic> route) => false);
+                                                          return false;
+                                                        }
+                                                      });
+                                                }
+                                              });
+                                            }
+                                          }else{
+                                             if(_nominalText.text.isEmpty){
+                                              setState(() {
+                                                _validate = true;
+                                              });
+                                            }else if (int.parse(widget.saldo) < int.parse(_nominalText.text)) {
+                                              SweetAlert.show(
+                                                context,
+                                                title: "Peringatan",
+                                                subtitle: Text(
+                                                  "Saldo anda kurang",
+                                                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                                                ),
+                                                style: SweetAlertStyle.confirm,
+                                              );
+                                            } else {
+                                              Dialogs.showLoading(context);
+                                              String tgl = DateTime.now().year.toString() +
+                                                  "-" +
+                                                  DateTime.now().month.toString() +
+                                                  "-" +
+                                                  DateTime.now().day.toString();
+                                              blocMember.penukaran(id, idPenukaran, idDesa, tgl, int.parse(_nominalText.text),
+                                                  _noHp.text.toString(), token);
+                                              blocMember.resGetPenukaran.listen((onData) {
+                                                if (onData.status == true) {
+                                                  SweetAlert.show(context,
+                                                      title: "Success",
+                                                      subtitle: Center(
+                                                        child: Text(
+                                                          "Permintaan anda sedang di proses admin\n terimakasih",
+                                                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                                                          textAlign: TextAlign.center,
+                                                        ),
+                                                      ),
+                                                      style: SweetAlertStyle.success,
+                                                      showCancelButton: false, onPress: (bool isConfirm) {
+                                                        if (isConfirm) {
+                                                          Navigator.of(context)
+                                                              .pushNamedAndRemoveUntil('/controller', (Route<dynamic> route) => false);
+                                                          return false;
+                                                        }
+                                                      });
+                                                }
+                                              });
+                                            }
                                           }
                                         },
                                         child: Container(

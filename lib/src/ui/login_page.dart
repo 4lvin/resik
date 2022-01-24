@@ -4,6 +4,7 @@ import 'package:b_sampah/src/pref/preference.dart';
 import 'package:b_sampah/src/ui/cekPinPage.dart';
 import 'package:b_sampah/src/ui/utils/colors.dart';
 import 'package:b_sampah/src/ui/utils/loading.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
@@ -17,11 +18,22 @@ class _LoginPageState extends State<LoginPage> {
   var _password = TextEditingController();
   bool _validate = false;
   bool passwordVisible = true;
+  FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+  String tokenUser;
 
   void showInSnackBar(BuildContext context, String value) {
     Scaffold.of(context).showSnackBar(new SnackBar(content: new Text(value)));
   }
 
+  @override
+  void initState() {
+    _firebaseMessaging.getToken().then((token) {
+      setState(() {
+        tokenUser = token;
+      });
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.bottomCenter,
                   child: Container(
                       margin: EdgeInsets.only(bottom: 12),
-                      child: Text("V 1.0.1",style: TextStyle(color: Colors.grey),))),
+                      child: Text("V 1.0.5",style: TextStyle(color: Colors.grey),))),
               Align(
                 alignment: Alignment.center,
                 child: AnimatedContainer(
@@ -161,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                                               Navigator.of(context).pushReplacement(MaterialPageRoute(
                                                   settings: const RouteSettings(name: '/codeCallPage'),
                                                   builder: (context) => CekPinPage(
-                                                    noKk: onData.data[0].idAnggota,
+                                                    noKk: onData.data[0].idAnggota,token: tokenUser,
                                                   )));
                                             } else {
                                               Future.delayed(Duration(seconds: 2)).then((value) {

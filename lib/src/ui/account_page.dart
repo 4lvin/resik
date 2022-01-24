@@ -29,13 +29,17 @@ class _AkunPageState extends State<AkunPage> {
           id = onValue;
         });
     });
+    getNama().then((value){
+      setState(() {
+        nama = value;
+      });
+    });
     blocMember.resGetSaldo.listen((onData){
       if(this.mounted){
         setState(() {
           _saldo = onData.data[0].saldo;
           _penjualan = onData.data[0].totalSetor;
           _tarik = onData.data[0].totalTukar;
-          nama = onData.data[0].namaAnggota;
           berat = onData.data[0].totalBerat;
         });
       }
@@ -113,6 +117,7 @@ class _AkunPageState extends State<AkunPage> {
                                     width: 80.0,
                                     height: 80.0,
                                     decoration: BoxDecoration(
+                                      color: Colors.white,
                                         border: Border.all(
                                             color: Colors.white, width: 1),
                                         shape: BoxShape.circle,

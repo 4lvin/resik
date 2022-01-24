@@ -437,7 +437,7 @@ class _ListHargaPageState extends State<ListHargaPage> {
                         topRight: Radius.circular(12.0),
                       ),
                       child: FadeInImage(
-                          placeholder: AssetImage('assets/loading.gif'),
+                          placeholder: snapshot.data.data[i].image == "https://banksampahpasuruan.com/banksampah_ws/uploads/sampah/" ? AssetImage("assets/tfupload.jpg"):AssetImage('assets/loading.gif'),
                           image: NetworkImage(snapshot.data.data[i].image),
                           fit: BoxFit.cover)),
                   decoration: BoxDecoration(

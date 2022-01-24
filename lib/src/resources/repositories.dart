@@ -14,8 +14,8 @@ class Repositories{
   Future checkId(String id) =>
       apiProvider.idCheck(id);
 
-  Future checkPin(String id,String pin) =>
-      apiProvider.pinCheck(id, pin);
+  Future checkPin(String id,String pin,String token) =>
+      apiProvider.pinCheck(id, pin,token);
 
   Future ubahPin(String id,String token,String pinLama,String pinBaru) =>
       apiProvider.ubahPin(id, token, pinLama, pinBaru);
@@ -36,5 +36,8 @@ class Repositories{
 
   Future kotakSaaran(String id, String komentar) =>
       apiProvider.kotakSaran(id, komentar);
+
+  Future getInformasi(String idDesa) =>
+      apiProvider.getInformasi(idDesa);
 
 }

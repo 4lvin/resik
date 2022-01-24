@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:b_sampah/src/models/getIdCheckModel.dart';
+import 'package:b_sampah/src/models/getInformasiModel.dart';
 import 'package:b_sampah/src/models/getResponseSetorModel.dart';
 import 'package:b_sampah/src/models/getResponseTukarModel.dart';
 import 'package:b_sampah/src/models/getSaldoModel.dart';
@@ -18,6 +19,7 @@ class MemberBloc {
   final _penukaranFetcher = PublishSubject<GetResponseTukarModel>();
   final _setorFetcher = PublishSubject<GetResponseSetorModel>();
   final _ubahPinFetcher = PublishSubject<GetUbahPinModel>();
+  final _informasiFetcher = PublishSubject<GetInformasiModel>();
 
   PublishSubject<GetIdCheckModel> get getUser => _loginFetcher.stream;
 
@@ -32,6 +34,8 @@ class MemberBloc {
 
   PublishSubject<GetUbahPinModel> get resUbahPin => _ubahPinFetcher.stream;
 
+  PublishSubject<GetInformasiModel> get resInformasi => _informasiFetcher.stream;
+
   checkId(String id) async {
     try {
       GetIdCheckModel getIdCheckModel = await _repository.checkId(id);
@@ -41,9 +45,9 @@ class MemberBloc {
     }
   }
 
-  checkPin(String id, String pin) async {
+  checkPin(String id, String pin,String token) async {
     try {
-      GetUserLoginModel getUserLoginModel = await _repository.checkPin(id, pin);
+      GetUserLoginModel getUserLoginModel = await _repository.checkPin(id, pin,token);
       _pinFetcher.sink.add(getUserLoginModel);
     } catch (error) {
       _pinFetcher.sink.addError(error);
@@ -95,6 +99,14 @@ class MemberBloc {
     }
   }
 
+  getInformasi(String idDesa) async {
+    try {
+      GetInformasiModel getInformasiModel = await _repository.getInformasi(idDesa);
+      _informasiFetcher.sink.add(getInformasiModel);
+    } catch (error) {
+      _informasiFetcher.sink.addError(error);
+    }
+  }
   dispose() {
     _loginFetcher.close();
     _pinFetcher.close();
@@ -102,6 +114,7 @@ class MemberBloc {
     _penukaranFetcher.close();
     _setorFetcher.close();
     _ubahPinFetcher.close();
+    _informasiFetcher.close();
   }
 }
 
