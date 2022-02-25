@@ -1,9 +1,7 @@
-import 'package:b_sampah/src/blocs/memberBloc.dart';
-import 'package:b_sampah/src/pref/preference.dart';
-import 'package:b_sampah/src/ui/pengaturanPage.dart';
-import 'package:b_sampah/src/ui/utils/colors.dart';
-import 'package:b_sampah/src/ui/utils/dialogAlert/sweetDialog.dart';
-import 'package:b_sampah/src/ui/utils/fadeAnimation.dart';
+import 'package:new_resik/src/blocs/memberBloc.dart';
+import 'package:new_resik/src/pref/preference.dart';
+import 'package:new_resik/src/ui/pengaturanPage.dart';
+import 'package:new_resik/src/ui/utils/fadeAnimation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
@@ -14,33 +12,33 @@ class AkunPage extends StatefulWidget {
 }
 
 class _AkunPageState extends State<AkunPage> {
-  String nama;
-  String _saldo;
-  String _penjualan;
-  String _tarik;
-  String id;
-  String berat;
+  String? nama;
+  String? _saldo;
+  String? _penjualan;
+  String? _tarik;
+  String? id;
+  String? berat;
   var komentar = TextEditingController();
   @override
   void initState() {
-    getId().then((onValue){
-        setState(() {
-          blocMember.getSaldo(onValue);
-          id = onValue;
-        });
+    getId().then((onValue) {
+      setState(() {
+        blocMember.getSaldo(onValue);
+        id = onValue;
+      });
     });
-    getNama().then((value){
+    getNama().then((value) {
       setState(() {
         nama = value;
       });
     });
-    blocMember.resGetSaldo.listen((onData){
-      if(this.mounted){
+    blocMember.resGetSaldo.listen((onData) {
+      if (this.mounted) {
         setState(() {
-          _saldo = onData.data[0].saldo;
-          _penjualan = onData.data[0].totalSetor;
-          _tarik = onData.data[0].totalTukar;
-          berat = onData.data[0].totalBerat;
+          _saldo = onData.data![0].saldo;
+          _penjualan = onData.data![0].totalSetor;
+          _tarik = onData.data![0].totalTukar;
+          berat = onData.data![0].totalBerat;
         });
       }
     });
@@ -58,7 +56,7 @@ class _AkunPageState extends State<AkunPage> {
             Stack(
               children: <Widget>[
                 Container(
-                  height: MediaQuery.of(context).size.height / 2-50,
+                  height: MediaQuery.of(context).size.height / 2 - 50,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
@@ -66,7 +64,7 @@ class _AkunPageState extends State<AkunPage> {
                           bottomRight: Radius.circular(40.0)),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey[400],
+                          color: Colors.grey.shade400,
                           blurRadius: 3.0,
                           spreadRadius: 0.0,
                           offset: Offset(
@@ -117,7 +115,7 @@ class _AkunPageState extends State<AkunPage> {
                                     width: 80.0,
                                     height: 80.0,
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                        color: Colors.white,
                                         border: Border.all(
                                             color: Colors.white, width: 1),
                                         shape: BoxShape.circle,
@@ -139,7 +137,7 @@ class _AkunPageState extends State<AkunPage> {
                                         margin: const EdgeInsets.only(
                                             top: 10, left: 10),
                                         child: Text(
-                                          nama == null ? "" : nama,
+                                          nama! == null ? "" : nama!,
                                           style: TextStyle(
                                               fontSize: 16,
                                               color: Colors.white),
@@ -148,7 +146,7 @@ class _AkunPageState extends State<AkunPage> {
                                     margin: const EdgeInsets.only(
                                         top: 10, left: 10),
                                     child: Text(
-                                      id == null ? "" : id,
+                                      id! == null ? "" : id!,
                                       style: TextStyle(
                                           fontSize: 14, color: Colors.white),
                                     )),
@@ -161,27 +159,27 @@ class _AkunPageState extends State<AkunPage> {
                             Center(
                               child: Card(
                                 margin:
-                                EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 8.0),
+                                    EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 8.0),
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(14)),
+                                      BorderRadius.all(Radius.circular(14)),
                                 ),
                                 elevation: 4.0,
                                 color: Colors.white,
                                 child: Container(
                                     width:
-                                    MediaQuery.of(context).size.width - 40,
+                                        MediaQuery.of(context).size.width - 40,
                                     height: 70,
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 16.0),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Column(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                             children: <Widget>[
                                               Text("Penjualan",
                                                   style: TextStyle(
@@ -191,11 +189,13 @@ class _AkunPageState extends State<AkunPage> {
                                                   Text("Rp. ",
                                                       style: TextStyle(
                                                           fontWeight:
-                                                          FontWeight.bold)),
-                                                  Text(_penjualan ?? 0.toString(),
+                                                              FontWeight.bold)),
+                                                  Text(
+                                                      _penjualan ??
+                                                          0.toString(),
                                                       style: TextStyle(
                                                           fontWeight:
-                                                          FontWeight.bold)),
+                                                              FontWeight.bold)),
                                                 ],
                                               )
                                             ],
@@ -207,7 +207,7 @@ class _AkunPageState extends State<AkunPage> {
                                           ),
                                           Column(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                             children: <Widget>[
                                               Text(
                                                 "Tarik Saldo",
@@ -219,12 +219,12 @@ class _AkunPageState extends State<AkunPage> {
                                                   Text("Rp. ",
                                                       style: TextStyle(
                                                           fontWeight:
-                                                          FontWeight.bold)),
+                                                              FontWeight.bold)),
                                                   Text(
                                                     _tarik ?? 0.toString(),
                                                     style: TextStyle(
                                                         fontWeight:
-                                                        FontWeight.bold),
+                                                            FontWeight.bold),
                                                   ),
                                                 ],
                                               )
@@ -242,32 +242,32 @@ class _AkunPageState extends State<AkunPage> {
                                 margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(14)),
+                                      BorderRadius.all(Radius.circular(14)),
                                 ),
                                 elevation: 4.0,
                                 color: Colors.white,
                                 child: Container(
                                     width:
-                                    MediaQuery.of(context).size.width - 40,
+                                        MediaQuery.of(context).size.width - 40,
                                     height: 100,
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 12.0),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Column(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                             children: <Widget>[
                                               Text("Berat/Kg",
                                                   style: TextStyle(
                                                       color: Colors.grey)),
-                                              Text("${berat??"0"}",
+                                              Text("${berat ?? "0"}",
                                                   style: TextStyle(
                                                       fontWeight:
-                                                      FontWeight.bold))
+                                                          FontWeight.bold))
                                             ],
                                           ),
                                           Container(
@@ -278,15 +278,15 @@ class _AkunPageState extends State<AkunPage> {
                                           ),
                                           Column(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Container(
                                                   width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                      2 -
+                                                              .size
+                                                              .width /
+                                                          2 -
                                                       40,
                                                   child: Text(
                                                     "Saldo",
@@ -298,13 +298,13 @@ class _AkunPageState extends State<AkunPage> {
                                                   Text("Rp. ",
                                                       style: TextStyle(
                                                           fontWeight:
-                                                          FontWeight.bold,
+                                                              FontWeight.bold,
                                                           fontSize: 16)),
                                                   Text(
                                                     _saldo ?? 0.toString(),
                                                     style: TextStyle(
                                                         fontWeight:
-                                                        FontWeight.bold,
+                                                            FontWeight.bold,
                                                         fontSize: 21),
                                                   ),
                                                 ],

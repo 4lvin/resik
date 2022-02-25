@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'package:b_sampah/src/blocs/memberBloc.dart';
-import 'package:b_sampah/src/pref/preference.dart';
-import 'package:b_sampah/src/ui/cekPinPage.dart';
-import 'package:b_sampah/src/ui/utils/colors.dart';
-import 'package:b_sampah/src/ui/utils/loading.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:new_resik/src/blocs/memberBloc.dart';
+import 'package:new_resik/src/ui/cekPinPage.dart';
+import 'package:new_resik/src/ui/utils/colors.dart';
+import 'package:new_resik/src/ui/utils/loading.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -18,8 +17,8 @@ class _LoginPageState extends State<LoginPage> {
   var _password = TextEditingController();
   bool _validate = false;
   bool passwordVisible = true;
-  FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
-  String tokenUser;
+  // FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+  String? tokenUser;
 
   void showInSnackBar(BuildContext context, String value) {
     Scaffold.of(context).showSnackBar(new SnackBar(content: new Text(value)));
@@ -27,17 +26,18 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    _firebaseMessaging.getToken().then((token) {
-      setState(() {
-        tokenUser = token;
-      });
-    });
+    // _firebaseMessaging.getToken().then((token) {
+    //   setState(() {
+    //     tokenUser = token;
+    //   });
+    // });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
@@ -64,11 +64,15 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.bottomCenter,
                   child: Container(
                       margin: EdgeInsets.only(bottom: 12),
-                      child: Text("V 1.0.5",style: TextStyle(color: Colors.grey),))),
+                      child: Text(
+                        "V 1.0.5",
+                        style: TextStyle(color: Colors.grey),
+                      ))),
               Align(
                 alignment: Alignment.center,
                 child: AnimatedContainer(
-                  margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/4),
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height / 4),
                   width: MediaQuery.of(context).size.width - 50,
                   height: MediaQuery.of(context).size.height / 2 - 130,
                   duration: Duration(milliseconds: 400),
@@ -137,7 +141,9 @@ class _LoginPageState extends State<LoginPage> {
                             //     ),
                             //   ),
                             // )),
-                            SizedBox(height: 27,),
+                            SizedBox(
+                              height: 27,
+                            ),
                             Material(
                               shadowColor: Colors.grey[50],
                               shape: RoundedRectangleBorder(
@@ -164,37 +170,50 @@ class _LoginPageState extends State<LoginPage> {
                                           _validate = true;
                                         });
                                       } else {
-                                          Dialogs.showLoading(context);
-                                          _validate = false;
-                                          blocMember.checkId(_nik.text);
-                                          blocMember.getUser.listen((onData) {
-                                            if (onData.status == true) {
-                                              Dialogs.dismiss(context);
-                                              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                                                  settings: const RouteSettings(name: '/codeCallPage'),
-                                                  builder: (context) => CekPinPage(
-                                                    noKk: onData.data[0].idAnggota,token: tokenUser,
-                                                  )));
-                                            } else {
-                                              Future.delayed(Duration(seconds: 2)).then((value) {
-                                                Dialogs.dismiss(context);
-                                              });
-                                              FocusScope.of(context)
-                                                  .requestFocus(
-                                                      new FocusNode());
-                                              Toast.show("User tidak ditemukan!", context,
-                                                  duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                                            }
-                                          }).onError((e){
-                                            Future.delayed(Duration(seconds: 2)).then((value) {
+                                        Dialogs.showLoading(context);
+                                        _validate = false;
+                                        blocMember.checkId(_nik.text);
+                                        blocMember.getUser.listen((onData) {
+                                          if (onData.status == true) {
+                                            Dialogs.dismiss(context);
+                                            Navigator.of(context).pushReplacement(
+                                                MaterialPageRoute(
+                                                    settings:
+                                                        const RouteSettings(
+                                                            name:
+                                                                '/codeCallPage'),
+                                                    builder: (context) =>
+                                                        CekPinPage(
+                                                          noKk: onData.data![0]
+                                                              .idAnggota,
+                                                          token: tokenUser!,
+                                                        )));
+                                          } else {
+                                            Future.delayed(Duration(seconds: 2))
+                                                .then((value) {
                                               Dialogs.dismiss(context);
                                             });
                                             FocusScope.of(context)
-                                                .requestFocus(
-                                                new FocusNode());
-                                            Toast.show(e.toString(), context,
-                                                duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+                                                .requestFocus(new FocusNode());
+                                            Fluttertoast.showToast(
+                                              msg: "User tidak ditemukan!",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                            );
+                                          }
+                                        }).onError((e) {
+                                          Future.delayed(Duration(seconds: 2))
+                                              .then((value) {
+                                            Dialogs.dismiss(context);
                                           });
+                                          FocusScope.of(context)
+                                              .requestFocus(new FocusNode());
+                                          Fluttertoast.showToast(
+                                            msg: e.toString(),
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                          );
+                                        });
                                       }
                                     },
                                     child: Container(
@@ -211,7 +230,9 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 12,),
+                            SizedBox(
+                              height: 12,
+                            ),
                           ],
                         ),
                       ),

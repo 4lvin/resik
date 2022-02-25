@@ -1,29 +1,26 @@
 import 'dart:io';
 
-import 'package:b_sampah/src/blocs/listSampahBloc.dart';
-import 'package:b_sampah/src/blocs/memberBloc.dart';
-import 'package:b_sampah/src/models/getSampahModel.dart';
-import 'package:b_sampah/src/pref/preference.dart';
-import 'package:b_sampah/src/ui/utils/colors.dart';
-import 'package:b_sampah/src/ui/utils/dialogAlert/sweetDialog.dart';
-import 'package:b_sampah/src/ui/utils/loading.dart';
+import 'package:new_resik/src/blocs/listSampahBloc.dart';
+import 'package:new_resik/src/blocs/memberBloc.dart';
+import 'package:new_resik/src/models/getSampahModel.dart';
+import 'package:new_resik/src/pref/preference.dart';
+import 'package:new_resik/src/ui/utils/colors.dart';
+import 'package:new_resik/src/ui/utils/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:toast/toast.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ListHargaPage extends StatefulWidget {
-
   @override
   _ListHargaPageState createState() => _ListHargaPageState();
 }
 
 class _ListHargaPageState extends State<ListHargaPage> {
   bool _show = false;
-  String idSampah;
-  String hrg;
-  String token;
-  String idDesa;
-  String idAnggota;
+  String? idSampah;
+  String? hrg;
+  String? token;
+  String? idDesa;
+  String? idAnggota;
   List qtyList = [];
   List totalHarga = [];
   List postDetail = [];
@@ -44,13 +41,13 @@ class _ListHargaPageState extends State<ListHargaPage> {
         token = value;
       });
     });
-    getId().then((value){
+    getId().then((value) {
       setState(() {
         idAnggota = value;
       });
     });
     blocListSampah.listHarga.listen((value) {
-      for (var i = 0; i < value.data.length; i++) {
+      for (var i = 0; i < value.data!.length; i++) {
         qtyList.add(0);
         totalHarga.add(0);
         postDetail.add(0);
@@ -72,6 +69,7 @@ class _ListHargaPageState extends State<ListHargaPage> {
             _show = false;
           });
         }
+        return Future.value(false);
       },
       child: Scaffold(
         body: Stack(
@@ -85,7 +83,7 @@ class _ListHargaPageState extends State<ListHargaPage> {
                     color: Colors.blueGrey,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey[400],
+                        color: Colors.grey.shade400,
                         blurRadius: 3.0,
                         spreadRadius: 0.0,
                         offset: Offset(
@@ -124,7 +122,7 @@ class _ListHargaPageState extends State<ListHargaPage> {
                 )),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(top: 3,bottom: 50),
+                    margin: EdgeInsets.only(top: 3, bottom: 50),
                     child: StreamBuilder(
                       stream: blocListSampah.listHarga,
                       builder:
@@ -147,9 +145,8 @@ class _ListHargaPageState extends State<ListHargaPage> {
               child: InkWell(
                 onTap: () {
                   setState(() {
-                    if(totalHarga.reduce((a, b) => a + b)==0){
-
-                    }else{
+                    if (totalHarga.reduce((a, b) => a + b) == 0) {
+                    } else {
                       _show = true;
                     }
                   });
@@ -177,7 +174,7 @@ class _ListHargaPageState extends State<ListHargaPage> {
                 ? Align(
                     alignment: Alignment.center,
                     child: Container(
-                      width: MediaQuery.of(context).size.width-40,
+                      width: MediaQuery.of(context).size.width - 40,
                       height: 470,
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -217,22 +214,22 @@ class _ListHargaPageState extends State<ListHargaPage> {
                                   // width: 50,
                                   child: Center(
                                       child: Text("Jumlah",
-                                          style: TextStyle(
-                                              color: Colors.white))),
+                                          style:
+                                              TextStyle(color: Colors.white))),
                                 ),
                                 Container(
                                   // width: 70,
                                   child: Center(
                                       child: Text("Harga",
-                                          style: TextStyle(
-                                              color: Colors.white))),
+                                          style:
+                                              TextStyle(color: Colors.white))),
                                 ),
                                 Container(
                                   // width: 83,
                                   child: Center(
                                       child: Text("Total",
-                                          style: TextStyle(
-                                              color: Colors.white))),
+                                          style:
+                                              TextStyle(color: Colors.white))),
                                 )
                               ],
                             ),
@@ -245,12 +242,13 @@ class _ListHargaPageState extends State<ListHargaPage> {
                                 itemBuilder: (BuildContext context, int i) {
                                   return namaSampah[i] != 0
                                       ? Container(
-                                    padding: EdgeInsets.all(8),
+                                          padding: EdgeInsets.all(8),
                                           margin: EdgeInsets.only(
                                               left: 2, right: 2),
                                           decoration: BoxDecoration(
                                             border: Border(
-                                              bottom: BorderSide( //                    <--- top side
+                                              bottom: BorderSide(
+                                                //                    <--- top side
                                                 color: Colors.black,
                                                 width: 1.0,
                                               ),
@@ -258,35 +256,33 @@ class _ListHargaPageState extends State<ListHargaPage> {
                                             color: Colors.grey[200],
                                           ),
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
                                               Container(
                                                   width: 110,
                                                   height: 30,
-                                                  child: Text(
-                                                      "${namaSampah[i]}")),
+                                                  child:
+                                                      Text("${namaSampah[i]}")),
                                               Container(
                                                   height: 30,
                                                   child: Text(
                                                     "${qtyList[i]}",
-                                                    textAlign:
-                                                        TextAlign.center,
+                                                    textAlign: TextAlign.center,
                                                   )),
                                               Container(
                                                   //width: 70,
                                                   height: 30,
                                                   child: Text(
                                                     "Rp. ${hargaSetor[i]}",
-                                                    textAlign:
-                                                        TextAlign.right,
+                                                    textAlign: TextAlign.right,
                                                   )),
                                               Container(
                                                   //width: 103,
                                                   height: 30,
                                                   child: Text(
                                                     "Rp. ${totalHarga[i]}",
-                                                    textAlign:
-                                                        TextAlign.right,
+                                                    textAlign: TextAlign.right,
                                                   )),
                                             ],
                                           ),
@@ -320,53 +316,68 @@ class _ListHargaPageState extends State<ListHargaPage> {
                                   DateTime.now().month.toString() +
                                   "-" +
                                   DateTime.now().day.toString();
-                              blocMember.setorSampah(idDesa,
-                                  idAnggota, tgl, postDetail, token);
+                              blocMember.setorSampah(
+                                idDesa!,
+                                idAnggota!,
+                                tgl,
+                                postDetail,
+                                token!,
+                              );
                               blocMember.resGetSetor.listen((onData) {
                                 if (onData.status == true) {
                                   Dialogs.dismiss(context);
-                                  SweetAlert.show(context,
-                                      title: "Success",
-                                      subtitle: Center(
+                                  Alert(
+                                    context: context,
+                                    type: AlertType.success,
+                                    title: "Success",
+                                    desc:
+                                        "Saldo Anda akan bertambah dan tunggu penjemputan sampah\n terimakasih",
+                                    buttons: [
+                                      DialogButton(
                                         child: Text(
-                                          "Saldo Anda akan bertambah dan tunggu penjemputan sampah\n terimakasih",
+                                          "YA",
                                           style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.grey),
-                                          textAlign: TextAlign.center,
+                                              color: Colors.green,
+                                              fontSize: 20),
                                         ),
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pushNamedAndRemoveUntil(
+                                                  '/controller',
+                                                  (Route<dynamic> route) =>
+                                                      false);
+                                        },
+                                        width: 120,
                                       ),
-                                      style: SweetAlertStyle.success,
-                                      showCancelButton: false,
-                                      onPress: (bool isConfirm) {
-                                    if (isConfirm) {
-                                      Navigator.of(context)
-                                          .pushNamedAndRemoveUntil('/controller', (Route<dynamic> route) => false);
-                                      return false;
-                                    }
-                                  });
+                                    ],
+                                  ).show();
                                 } else {
                                   Dialogs.dismiss(context);
-                                  SweetAlert.show(
-                                    context,
+                                  Alert(
+                                    context: context,
+                                    type: AlertType.error,
                                     title: "Gagal",
-                                    subtitle: Center(
-                                      child: Text(
-                                        "upload gagal",
-                                        style: TextStyle(
-                                            fontSize: 16, color: Colors.grey),
-                                        textAlign: TextAlign.center,
+                                    desc: "Upload gagal",
+                                    buttons: [
+                                      DialogButton(
+                                        child: Text(
+                                          "YA",
+                                          style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: 20),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        width: 120,
                                       ),
-                                    ),
-                                    style: SweetAlertStyle.success,
-                                    showCancelButton: true,
-                                  );
+                                    ],
+                                  ).show();
                                 }
                               });
                             },
                             child: Container(
-                              width:
-                                  MediaQuery.of(context).size.width / 2 + 50,
+                              width: MediaQuery.of(context).size.width / 2 + 50,
                               height: 50,
                               margin: EdgeInsets.only(bottom: 12),
                               decoration: BoxDecoration(
@@ -395,16 +406,16 @@ class _ListHargaPageState extends State<ListHargaPage> {
     return ListView.builder(
         shrinkWrap: true,
         padding: EdgeInsets.only(top: 0, bottom: 60),
-        itemCount: snapshot.data.data.length,
+        itemCount: snapshot.data!.data!.length,
         itemBuilder: (BuildContext context, int i) {
           if (qtyList[i] != 0) {
             postDetail[i] = {
-              "id_sampah": snapshot.data.data[i].idSampah,
+              "id_sampah": snapshot.data!.data![i].idSampah,
               "jumlah": qtyList[i],
-              "harga": snapshot.data.data[i].hargaSetor
+              "harga": snapshot.data!.data![i].hargaSetor
             };
-            namaSampah[i] = snapshot.data.data[i].namaSampah;
-            hargaSetor[i] = snapshot.data.data[i].hargaSetor;
+            namaSampah[i] = snapshot.data!.data![i].namaSampah;
+            hargaSetor[i] = snapshot.data!.data![i].hargaSetor;
           } else {
             postDetail[i] = 0;
             namaSampah[i] = 0;
@@ -416,7 +427,7 @@ class _ListHargaPageState extends State<ListHargaPage> {
               color: Colors.grey[200],
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey[400],
+                  color: Colors.grey.shade400,
                   blurRadius: 3.0,
                   spreadRadius: 0.0,
                   offset: Offset(
@@ -437,8 +448,11 @@ class _ListHargaPageState extends State<ListHargaPage> {
                         topRight: Radius.circular(12.0),
                       ),
                       child: FadeInImage(
-                          placeholder: snapshot.data.data[i].image == "https://banksampahpasuruan.com/banksampah_ws/uploads/sampah/" ? AssetImage("assets/tfupload.jpg"):AssetImage('assets/loading.gif'),
-                          image: NetworkImage(snapshot.data.data[i].image),
+                          placeholder: snapshot.data!.data![i].image ==
+                                  "https://banksampahpasuruan.com/banksampah_ws/uploads/sampah/"
+                              ? AssetImage("assets/tfupload.jpg")
+                              : AssetImage('assets/loading.gif'),
+                          image: NetworkImage(snapshot.data!.data![i].image!),
                           fit: BoxFit.cover)),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -447,7 +461,7 @@ class _ListHargaPageState extends State<ListHargaPage> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey[400],
+                        color: Colors.grey.shade400,
                         blurRadius: 3.0,
                         spreadRadius: 0.0,
                         offset: Offset(
@@ -458,7 +472,7 @@ class _ListHargaPageState extends State<ListHargaPage> {
                     ],
                     color: Colors.blueGrey,
                     image: DecorationImage(
-                        image: NetworkImage(snapshot.data.data[i].image),
+                        image: NetworkImage(snapshot.data!.data![i].image!),
                         fit: BoxFit.cover),
                   ),
                 ),
@@ -470,16 +484,15 @@ class _ListHargaPageState extends State<ListHargaPage> {
                       Container(
                         width: 130,
                         child: Text(
-                          snapshot.data.data[i].namaSampah,
+                          snapshot.data!.data![i].namaSampah!,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                         ),
                       ),
                       Text(
-                        "Rp. " + snapshot.data.data[i].hargaSetor,
+                        "Rp. " + snapshot.data!.data![i].hargaSetor!,
                         style: TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold),
+                            color: Colors.green, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -495,11 +508,11 @@ class _ListHargaPageState extends State<ListHargaPage> {
                               setState(() {
                                 qtyList[i] = qtyList[i] - 1;
                                 totalHarga[i] = int.parse(
-                                        snapshot.data.data[i].hargaSetor) *
+                                        snapshot.data!.data![i].hargaSetor!) *
                                     qtyList[i];
-                                if(totalHarga.reduce((a, b) => a + b)==0){
+                                if (totalHarga.reduce((a, b) => a + b) == 0) {
                                   setor = Colors.grey;
-                                }else{
+                                } else {
                                   setor = colorses.hijauDasar;
                                 }
                               });
@@ -522,12 +535,12 @@ class _ListHargaPageState extends State<ListHargaPage> {
                         onTap: () {
                           setState(() {
                             qtyList[i] = qtyList[i] + 1;
-                            totalHarga[i] = int.parse(
-                                    snapshot.data.data[i].hargaSetor) *
-                                qtyList[i];
-                            if(totalHarga.reduce((a, b) => a + b)==0){
+                            totalHarga[i] =
+                                int.parse(snapshot.data!.data![i].hargaSetor!) *
+                                    qtyList[i];
+                            if (totalHarga.reduce((a, b) => a + b) == 0) {
                               setor = Colors.grey;
-                            }else{
+                            } else {
                               setor = colorses.hijauDasar;
                             }
                           });

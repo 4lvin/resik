@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'package:async/async.dart';
-import 'package:b_sampah/src/models/getHistoryModel.dart';
-import 'package:b_sampah/src/models/getIdCheckModel.dart';
-import 'package:b_sampah/src/models/getInformasiModel.dart';
-import 'package:b_sampah/src/models/getPenukaranModel.dart';
-import 'package:b_sampah/src/models/getResponseSetorModel.dart';
+import 'package:new_resik/src/models/getHistoryModel.dart';
+import 'package:new_resik/src/models/getIdCheckModel.dart';
+import 'package:new_resik/src/models/getInformasiModel.dart';
+import 'package:new_resik/src/models/getPenukaranModel.dart';
+import 'package:new_resik/src/models/getResponseSetorModel.dart';
 import 'dart:io';
-import 'package:b_sampah/src/models/getResponseTukarModel.dart';
-import 'package:b_sampah/src/models/getSaldoModel.dart';
-import 'package:b_sampah/src/models/getSampahModel.dart';
-import 'package:b_sampah/src/models/getUbahPinModel.dart';
-import 'package:b_sampah/src/models/getUserLoginModel.dart';
+import 'package:new_resik/src/models/getResponseTukarModel.dart';
+import 'package:new_resik/src/models/getSaldoModel.dart';
+import 'package:new_resik/src/models/getSampahModel.dart';
+import 'package:new_resik/src/models/getUbahPinModel.dart';
+import 'package:new_resik/src/models/getUserLoginModel.dart';
 import 'package:http/http.dart' as client;
 import 'package:path/path.dart' as path;
 import 'dart:convert';
@@ -24,7 +24,7 @@ class ApiProvider {
     var body = jsonEncode({'id_desa': id});
     try {
       final checkId = await client
-          .post("$url/C_sampah/get_sampah",
+          .post(Uri.parse("$url/C_sampah/get_sampah"),
               headers: {"Content-Type": "application/json"}, body: body)
           .timeout(const Duration(seconds: 11));
       if (checkId.statusCode == 200) {
@@ -51,7 +51,7 @@ class ApiProvider {
     var body = jsonEncode({'id_anggota': id});
     try {
       final checkId = await client
-          .post("$url/C_user/get_anggota",
+          .post(Uri.parse("$url/C_user/get_anggota"),
               headers: {"Content-Type": "application/json"}, body: body)
           .timeout(const Duration(seconds: 11));
       if (checkId.statusCode == 200) {
@@ -74,11 +74,11 @@ class ApiProvider {
     }
   }
 
-  Future pinCheck(String id, String pin,String token) async {
-    var body = jsonEncode({'id_anggota': id, 'pin': pin, 'token':token});
+  Future pinCheck(String id, String pin, String token) async {
+    var body = jsonEncode({'id_anggota': id, 'pin': pin, 'token': token});
     try {
       final checkId = await client
-          .post("$url/C_user/get_pin",
+          .post(Uri.parse("$url/C_user/get_pin"),
               headers: {"Content-Type": "application/json"}, body: body)
           .timeout(const Duration(seconds: 11));
       print(checkId.body);
@@ -106,7 +106,7 @@ class ApiProvider {
     var body = jsonEncode({'id_anggota': id});
     try {
       final checkId = await client
-          .post("$url/C_user/saldo",
+          .post(Uri.parse("$url/C_user/saldo"),
               headers: {"Content-Type": "application/json"}, body: body)
           .timeout(const Duration(seconds: 11));
       if (checkId.statusCode == 200) {
@@ -133,7 +133,7 @@ class ApiProvider {
     var body = jsonEncode({'id_desa': idDesa});
     try {
       final checkId = await client
-          .post("$url/C_sampah/jenis_penukaran",
+          .post(Uri.parse("$url/C_sampah/jenis_penukaran"),
               headers: {"Content-Type": "application/json"}, body: body)
           .timeout(const Duration(seconds: 11));
       if (checkId.statusCode == 200) {
@@ -168,7 +168,7 @@ class ApiProvider {
     });
     try {
       final checkId = await client
-          .post("$url/C_user/penukaran",
+          .post(Uri.parse("$url/C_user/penukaran"),
               headers: {
                 "Content-Type": "application/json",
                 "Authorization": token
@@ -207,7 +207,7 @@ class ApiProvider {
     });
     try {
       final checkId = await client
-          .post("$url/C_user/setor",
+          .post(Uri.parse("$url/C_user/setor"),
               headers: {
                 "Content-Type": "application/json",
                 "Authorization": token
@@ -237,7 +237,7 @@ class ApiProvider {
 
   Future<GetHistoryModel> getHistory(String id) async {
     var body = jsonEncode({'id_anggota': id});
-    final history = await client.post("$url/C_user/history_setor",
+    final history = await client.post(Uri.parse("$url/C_user/history_setor"),
         headers: {"Content-Type": "application/json"}, body: body);
     print(history.body);
     if (history.statusCode == 200) {
@@ -251,7 +251,7 @@ class ApiProvider {
     var body = jsonEncode({'id_anggota': id, 'komentar': komentar});
     try {
       final checkId = await client
-          .post("$url/C_komentar/form_komentar",
+          .post(Uri.parse("$url/C_komentar/form_komentar"),
               headers: {"Content-Type": "application/json"}, body: body)
           .timeout(const Duration(seconds: 11));
       if (checkId.statusCode == 200) {
@@ -282,7 +282,7 @@ class ApiProvider {
     print(token);
     try {
       final checkId = await client
-          .post("$url/C_user/ubah_pin",
+          .post(Uri.parse("$url/C_user/ubah_pin"),
               headers: {
                 "Content-Type": "application/json",
                 "Authorization": token
@@ -312,7 +312,7 @@ class ApiProvider {
 
   Future getInformasi(String idDesa) async {
     var body = jsonEncode({'id_desa': idDesa});
-    final history = await client.post("$url/C_user/informasi",
+    final history = await client.post(Uri.parse("$url/C_user/informasi"),
         headers: {"Content-Type": "application/json"}, body: body);
     print(history.body);
     if (history.statusCode == 200) {

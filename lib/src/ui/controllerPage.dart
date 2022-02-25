@@ -1,16 +1,15 @@
-import 'package:b_sampah/src/pref/preference.dart';
-import 'package:b_sampah/src/ui/account_page.dart';
-import 'package:b_sampah/src/ui/cekHargaList_page.dart';
-import 'package:b_sampah/src/ui/home_page.dart';
-import 'package:b_sampah/src/ui/utils/colors.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:new_resik/src/ui/account_page.dart';
+import 'package:new_resik/src/ui/cekHargaList_page.dart';
+import 'package:new_resik/src/ui/home_page.dart';
+import 'package:new_resik/src/ui/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
+// import 'package:toast/toast.dart';
 
 class ControllerPage extends StatefulWidget {
   ControllerPage({this.selected});
 
-  int selected;
+  int? selected;
 
   @override
   _ControllerPageState createState() => _ControllerPageState();
@@ -20,15 +19,18 @@ class _ControllerPageState extends State<ControllerPage> {
   PageController _myPage = PageController(initialPage: 0);
   Color colorHome = Colors.blue;
   Color colorProfil = Colors.black54;
-  DateTime currentBackPressTime;
+  DateTime? currentBackPressTime;
 
   Future<bool> _onWillPop() {
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
       currentBackPressTime = now;
-      Toast.show("Tekan sekali lagi untuk keluar", context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      Fluttertoast.showToast(
+        msg: "Tekan sekali lagi untuk keluar",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+      );
       return Future.value(false);
     }
     return Future.value(true);
@@ -58,7 +60,7 @@ class _ControllerPageState extends State<ControllerPage> {
             },
             children: <Widget>[HomePage(), AkunPage()],
             physics:
-            NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.
+                NeverScrollableScrollPhysics(), // Comment this if you need to use Swipe.
           ),
         ),
       ),
@@ -77,7 +79,7 @@ class _ControllerPageState extends State<ControllerPage> {
                   });
                 },
                 child: Container(
-                  width: MediaQuery.of(context).size.width/2,
+                  width: MediaQuery.of(context).size.width / 2,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -100,11 +102,14 @@ class _ControllerPageState extends State<ControllerPage> {
                   });
                 },
                 child: Container(
-                  width: MediaQuery.of(context).size.width/2,
+                  width: MediaQuery.of(context).size.width / 2,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Icon(Icons.person,color: colorProfil,),
+                      Icon(
+                        Icons.person,
+                        color: colorProfil,
+                      ),
                       Text(
                         "Profile",
                         style: TextStyle(color: colorProfil),
@@ -124,7 +129,7 @@ class _ControllerPageState extends State<ControllerPage> {
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey[400],
+                color: Colors.grey.shade400,
                 blurRadius: 2.0,
                 spreadRadius: 1.0,
               )

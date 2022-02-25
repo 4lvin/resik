@@ -11,25 +11,27 @@ class GetUbahPinModel {
     this.message,
   });
 
-  bool status;
-  Data data;
-  String message;
+  bool? status;
+  Data? data;
+  String? message;
 
-  factory GetUbahPinModel.fromRawJson(String str) => GetUbahPinModel.fromJson(json.decode(str));
+  factory GetUbahPinModel.fromRawJson(String str) =>
+      GetUbahPinModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory GetUbahPinModel.fromJson(Map<String, dynamic> json) => GetUbahPinModel(
-    status: json["status"],
-    data: Data.fromJson(json["data"]),
-    message: json["message"],
-  );
+  factory GetUbahPinModel.fromJson(Map<String, dynamic> json) =>
+      GetUbahPinModel(
+        status: json["status"],
+        data: Data.fromJson(json["data"]),
+        message: json["message"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "data": data.toJson(),
-    "message": message,
-  };
+        "status": status,
+        "data": data!.toJson(),
+        "message": message,
+      };
 }
 
 class Data {
@@ -37,17 +39,17 @@ class Data {
     this.idAnggota,
   });
 
-  String idAnggota;
+  String? idAnggota;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    idAnggota: json["id_anggota"],
-  );
+        idAnggota: json["id_anggota"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id_anggota": idAnggota,
-  };
+        "id_anggota": idAnggota,
+      };
 }

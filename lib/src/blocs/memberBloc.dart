@@ -1,14 +1,13 @@
 import 'dart:io';
 
-import 'package:b_sampah/src/models/getIdCheckModel.dart';
-import 'package:b_sampah/src/models/getInformasiModel.dart';
-import 'package:b_sampah/src/models/getResponseSetorModel.dart';
-import 'package:b_sampah/src/models/getResponseTukarModel.dart';
-import 'package:b_sampah/src/models/getSaldoModel.dart';
-import 'package:b_sampah/src/models/getSampahModel.dart';
-import 'package:b_sampah/src/models/getUbahPinModel.dart';
-import 'package:b_sampah/src/models/getUserLoginModel.dart';
-import 'package:b_sampah/src/resources/repositories.dart';
+import 'package:new_resik/src/models/getIdCheckModel.dart';
+import 'package:new_resik/src/models/getInformasiModel.dart';
+import 'package:new_resik/src/models/getResponseSetorModel.dart';
+import 'package:new_resik/src/models/getResponseTukarModel.dart';
+import 'package:new_resik/src/models/getSaldoModel.dart';
+import 'package:new_resik/src/models/getUbahPinModel.dart';
+import 'package:new_resik/src/models/getUserLoginModel.dart';
+import 'package:new_resik/src/resources/repositories.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MemberBloc {
@@ -21,20 +20,20 @@ class MemberBloc {
   final _ubahPinFetcher = PublishSubject<GetUbahPinModel>();
   final _informasiFetcher = PublishSubject<GetInformasiModel>();
 
-  PublishSubject<GetIdCheckModel> get getUser => _loginFetcher.stream;
+  PublishSubject<GetIdCheckModel> get getUser => _loginFetcher;
 
-  PublishSubject<GetUserLoginModel> get getPin => _pinFetcher.stream;
+  PublishSubject<GetUserLoginModel> get getPin => _pinFetcher;
 
-  PublishSubject<GetSaldoModel> get resGetSaldo => _saldoFetcher.stream;
+  PublishSubject<GetSaldoModel> get resGetSaldo => _saldoFetcher;
 
   PublishSubject<GetResponseTukarModel> get resGetPenukaran =>
-      _penukaranFetcher.stream;
+      _penukaranFetcher;
 
-  PublishSubject<GetResponseSetorModel> get resGetSetor => _setorFetcher.stream;
+  PublishSubject<GetResponseSetorModel> get resGetSetor => _setorFetcher;
 
-  PublishSubject<GetUbahPinModel> get resUbahPin => _ubahPinFetcher.stream;
+  PublishSubject<GetUbahPinModel> get resUbahPin => _ubahPinFetcher;
 
-  PublishSubject<GetInformasiModel> get resInformasi => _informasiFetcher.stream;
+  PublishSubject<GetInformasiModel> get resInformasi => _informasiFetcher;
 
   checkId(String id) async {
     try {
@@ -45,9 +44,10 @@ class MemberBloc {
     }
   }
 
-  checkPin(String id, String pin,String token) async {
+  checkPin(String id, String pin, String token) async {
     try {
-      GetUserLoginModel getUserLoginModel = await _repository.checkPin(id, pin,token);
+      GetUserLoginModel getUserLoginModel =
+          await _repository.checkPin(id, pin, token);
       _pinFetcher.sink.add(getUserLoginModel);
     } catch (error) {
       _pinFetcher.sink.addError(error);
@@ -101,12 +101,14 @@ class MemberBloc {
 
   getInformasi(String idDesa) async {
     try {
-      GetInformasiModel getInformasiModel = await _repository.getInformasi(idDesa);
+      GetInformasiModel getInformasiModel =
+          await _repository.getInformasi(idDesa);
       _informasiFetcher.sink.add(getInformasiModel);
     } catch (error) {
       _informasiFetcher.sink.addError(error);
     }
   }
+
   dispose() {
     _loginFetcher.close();
     _pinFetcher.close();

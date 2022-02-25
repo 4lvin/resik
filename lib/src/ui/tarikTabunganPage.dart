@@ -1,17 +1,17 @@
-import 'package:b_sampah/src/blocs/listSampahBloc.dart';
-import 'package:b_sampah/src/blocs/memberBloc.dart';
-import 'package:b_sampah/src/models/getPenukaranModel.dart';
-import 'package:b_sampah/src/pref/preference.dart';
-import 'package:b_sampah/src/ui/utils/colors.dart';
-import 'package:b_sampah/src/ui/utils/dialogAlert/sweetDialog.dart';
-import 'package:b_sampah/src/ui/utils/loading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:new_resik/src/blocs/listSampahBloc.dart';
+import 'package:new_resik/src/blocs/memberBloc.dart';
+import 'package:new_resik/src/models/getPenukaranModel.dart';
+import 'package:new_resik/src/pref/preference.dart';
+import 'package:new_resik/src/ui/utils/colors.dart';
+import 'package:new_resik/src/ui/utils/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class TarikTabunganPage extends StatefulWidget {
   TarikTabunganPage({this.saldo});
 
-  String saldo;
+  String? saldo;
 
   @override
   _TarikTabunganPageState createState() => _TarikTabunganPageState();
@@ -19,13 +19,14 @@ class TarikTabunganPage extends StatefulWidget {
 
 class _TarikTabunganPageState extends State<TarikTabunganPage> {
   bool selected = false;
-  String jenis;
-  String id;
-  String idPenukaran;
-  String idDesa;
-  String kategori;
-  String token;
-  bool _validate=false;
+  String? jenis;
+  String? id;
+  String? idPenukaran;
+  String? idDesa;
+  String? kategori;
+  String? token;
+  bool _validate = false;
+  String? _selectedNominal;
   List<String> _nominal = [
     '2000',
     '5000',
@@ -34,7 +35,6 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
     '50000',
     '100000',
   ];
-  String _selectedNominal;
   var _noHp = TextEditingController();
   var _nominalText = TextEditingController();
 
@@ -67,6 +67,7 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
             selected = false;
           });
         }
+        return Future.value(false);
       },
       child: Scaffold(
         appBar: AppBar(
@@ -94,15 +95,18 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                 ),
                 StreamBuilder(
                     stream: blocListSampah.listPenukaran,
-                    builder: (context, AsyncSnapshot<GetPenukaranModel> snapshot) {
+                    builder:
+                        (context, AsyncSnapshot<GetPenukaranModel> snapshot) {
                       if (snapshot.hasData) {
                         return Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                            padding:
+                                const EdgeInsets.only(left: 8.0, right: 8.0),
                             child: GridView.builder(
                                 primary: false,
-                                itemCount: snapshot.data.data.length,
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                itemCount: snapshot.data!.data!.length,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,
                                   crossAxisSpacing: 16.0,
                                   mainAxisSpacing: 8.0,
@@ -112,9 +116,12 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                     onTap: () {
                                       setState(() {
                                         selected = true;
-                                        jenis = snapshot.data.data[i].keterangan;
-                                        kategori = snapshot.data.data[i].idKategori;
-                                        idPenukaran = snapshot.data.data[i].idPenukaran;
+                                        jenis =
+                                            snapshot.data!.data![i].keterangan;
+                                        kategori =
+                                            snapshot.data!.data![i].idKategori;
+                                        idPenukaran =
+                                            snapshot.data!.data![i].idPenukaran;
                                       });
                                     },
                                     child: Container(
@@ -122,10 +129,12 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(30),
                                         gradient: LinearGradient(
-                                            begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: colorses.gradient),
+                                            begin: Alignment.bottomCenter,
+                                            end: Alignment.topCenter,
+                                            colors: colorses.gradient),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.grey[400],
+                                            color: Colors.grey.shade400,
                                             blurRadius: 3.0,
                                             spreadRadius: 0.0,
                                             offset: Offset(
@@ -144,15 +153,21 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                             height: 50.0,
                                             width: 50.0,
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8.0),
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
                                               image: DecorationImage(
-                                                  image: NetworkImage(snapshot.data.data[i].icon), fit: BoxFit.cover),
+                                                  image: NetworkImage(snapshot
+                                                      .data!.data![i].icon!),
+                                                  fit: BoxFit.cover),
                                             ),
                                           ),
                                           Center(
                                             child: Text(
-                                              snapshot.data.data[i].keterangan,
-                                              style: TextStyle(color: Colors.white),textAlign: TextAlign.center,
+                                              snapshot
+                                                  .data!.data![i].keterangan!,
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                              textAlign: TextAlign.center,
                                             ),
                                           ),
                                         ],
@@ -177,14 +192,16 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                 : Container(),
             selected
                 ? AnimatedContainer(
-                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2 - 120),
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height / 2 - 120),
                     duration: Duration(seconds: 2),
                     curve: Curves.fastLinearToSlowEaseIn,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          padding: EdgeInsets.only(top: 16, left: 12, right: 12, bottom: 12),
+                          padding: EdgeInsets.only(
+                              top: 16, left: 12, right: 12, bottom: 12),
                           width: MediaQuery.of(context).size.width - 50,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(18),
@@ -212,9 +229,12 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                     ? Center(
                                         child: Container(
                                         margin: EdgeInsets.only(top: 5),
-                                        width: MediaQuery.of(context).size.width - 100,
+                                        width:
+                                            MediaQuery.of(context).size.width -
+                                                100,
                                         child: TextField(
-                                          textCapitalization: TextCapitalization.sentences,
+                                          textCapitalization:
+                                              TextCapitalization.sentences,
                                           controller: _noHp,
                                           cursorColor: Color(0xff740e13),
                                           style: TextStyle(fontSize: 16),
@@ -232,71 +252,79 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                   padding: const EdgeInsets.only(left: 12.0),
                                   child: Text("Nominal"),
                                 ),
-                                jenis == "Pulsa"?Container(
+                                jenis == "Pulsa"
+                                    ? Container(
+                                        margin: EdgeInsets.only(left: 22),
+                                        width: 280,
+                                        child: DropdownButton(
+                                          value: _selectedNominal,
+                                          isExpanded: true,
+                                          onChanged: (String? newValue) {
+                                            setState(() {
+                                              _selectedNominal = newValue;
+                                            });
+                                          },
+                                          items: _nominal.map((location) {
+                                            return DropdownMenuItem(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: <Widget>[
+                                                  // Icon(Icons.done),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    location,
+                                                  ),
+                                                ],
+                                              ),
+                                              value: location,
+                                            );
+                                          }).toList(),
+                                        ),
+                                      )
+                                    : Container(),
+                                Column(
+                                  children: <Widget>[
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          _nominalText.text = widget.saldo!;
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                            color: colorses.merahLight,
+                                            borderRadius:
+                                                BorderRadius.circular(12)),
+                                        child: Text(
+                                          "Tukar semua saldo",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
                                   margin: EdgeInsets.only(left: 22),
                                   width: 280,
-                                  child: DropdownButton(
-                                    value: _selectedNominal,
-                                    isExpanded: true,
-                                    onChanged: (newValue) {
-                                      setState(() {
-                                        _selectedNominal = newValue;
-                                      });
-                                    },
-                                    items: _nominal.map((location) {
-                                      return DropdownMenuItem(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            // Icon(Icons.done),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              location,
-                                            ),
-                                          ],
-                                        ),
-                                        value: location,
-                                      );
-                                    }).toList(),
-                                  ),
-                                ):Container(),
-                            Column(
-                              children: <Widget>[
-                                InkWell(
-                                  onTap:(){
-                                   setState(() {
-                                     _nominalText.text = widget.saldo;
-                                   });
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: colorses.merahLight,
-                                      borderRadius: BorderRadius.circular(12)
+                                  child: TextField(
+                                    controller: _nominalText,
+                                    cursorColor: Color(0xff740e13),
+                                    style: TextStyle(fontSize: 16),
+                                    decoration: InputDecoration(
+                                      errorText: _nominalText.text.length < 3 &&
+                                              _validate
+                                          ? 'Nominal harus diisi !'
+                                          : null,
+                                      labelText: "Nominal",
                                     ),
-                                    child: Text("Tukar semua saldo",style: TextStyle(color: Colors.white),),
+                                    keyboardType: TextInputType.number,
                                   ),
                                 ),
-                              ],
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 22),
-                              width: 280,
-                              child: TextField(
-                                controller: _nominalText,
-                                cursorColor: Color(0xff740e13),
-                                style: TextStyle(fontSize: 16),
-                                decoration: InputDecoration(
-                                  errorText: _nominalText.text.length < 3 && _validate
-                                      ? 'Nominal harus diisi !'
-                                      : null,
-                                  labelText: "Nominal",
-                                ),
-                                keyboardType: TextInputType.number,
-                              ),
-                            ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 18.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 18.0),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
@@ -308,124 +336,211 @@ class _TarikTabunganPageState extends State<TarikTabunganPage> {
                                         },
                                         child: Container(
                                           margin: EdgeInsets.only(right: 15.0),
-                                          width: MediaQuery.of(context).size.width / 2 - 50,
-                                          padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              50,
+                                          padding: EdgeInsets.only(
+                                              top: 15.0, bottom: 15.0),
                                           decoration: BoxDecoration(
                                             color: Colors.red[300],
-                                            borderRadius: BorderRadius.circular(12.0),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
                                           ),
                                           child: Text(
                                             "BATAL",
-                                            style: TextStyle(color: Colors.white),
+                                            style:
+                                                TextStyle(color: Colors.white),
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          if(jenis == "Pulsa"){
+                                          if (jenis == "Pulsa") {
                                             if (_selectedNominal == null) {
-                                              Toast.show("Nominal harus di isi!", context,
-                                                  duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                                            }else if (int.parse(widget.saldo) < int.parse(_selectedNominal)) {
-                                              SweetAlert.show(
-                                                context,
-                                                title: "Peringatan",
-                                                subtitle: Text(
-                                                  "Saldo anda kurang",
-                                                  style: TextStyle(fontSize: 16, color: Colors.grey),
-                                                ),
-                                                style: SweetAlertStyle.confirm,
+                                              Fluttertoast.showToast(
+                                                msg: "Nominal harus di isi!",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.CENTER,
                                               );
+                                            } else if (int.parse(
+                                                    widget.saldo!) <
+                                                int.parse(_selectedNominal!)) {
+                                              Alert(
+                                                context: context,
+                                                type: AlertType.warning,
+                                                title: "Peringatan",
+                                                desc: "Saldo anda kurang",
+                                                buttons: [
+                                                  DialogButton(
+                                                    child: Text(
+                                                      "OK",
+                                                      style: TextStyle(
+                                                          color: Colors.green,
+                                                          fontSize: 20),
+                                                    ),
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                    width: 120,
+                                                  ),
+                                                ],
+                                              ).show();
                                             } else {
                                               Dialogs.showLoading(context);
-                                              String tgl = DateTime.now().year.toString() +
+                                              String tgl = DateTime.now()
+                                                      .year
+                                                      .toString() +
                                                   "-" +
-                                                  DateTime.now().month.toString() +
+                                                  DateTime.now()
+                                                      .month
+                                                      .toString() +
                                                   "-" +
                                                   DateTime.now().day.toString();
-                                              blocMember.penukaran(id, idPenukaran, idDesa, tgl, int.parse(_selectedNominal),
-                                                  _noHp.text.toString(), token);
-                                              blocMember.resGetPenukaran.listen((onData) {
+                                              blocMember.penukaran(
+                                                id!,
+                                                idPenukaran!,
+                                                idDesa!,
+                                                tgl,
+                                                int.parse(_selectedNominal!),
+                                                _noHp.text.toString(),
+                                                token!,
+                                              );
+                                              blocMember.resGetPenukaran
+                                                  .listen((onData) {
                                                 if (onData.status == true) {
-                                                  SweetAlert.show(context,
-                                                      title: "Success",
-                                                      subtitle: Center(
+                                                  Alert(
+                                                    context: context,
+                                                    type: AlertType.success,
+                                                    title: "Success",
+                                                    desc:
+                                                        "Permintaan anda sedang di proses admin\n terimakasih",
+                                                    buttons: [
+                                                      DialogButton(
                                                         child: Text(
-                                                          "Permintaan anda sedang di proses admin\n terimakasih",
-                                                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                                                          textAlign: TextAlign.center,
+                                                          "OK",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.green,
+                                                              fontSize: 20),
                                                         ),
-                                                      ),
-                                                      style: SweetAlertStyle.success,
-                                                      showCancelButton: false, onPress: (bool isConfirm) {
-                                                        if (isConfirm) {
+                                                        onPressed: () {
                                                           Navigator.of(context)
-                                                              .pushNamedAndRemoveUntil('/controller', (Route<dynamic> route) => false);
-                                                          return false;
-                                                        }
-                                                      });
+                                                              .pushNamedAndRemoveUntil(
+                                                            '/controller',
+                                                            (Route<dynamic>
+                                                                    route) =>
+                                                                false,
+                                                          );
+                                                        },
+                                                        width: 120,
+                                                      ),
+                                                    ],
+                                                  ).show();
                                                 }
                                               });
                                             }
-                                          }else{
-                                             if(_nominalText.text.isEmpty){
+                                          } else {
+                                            if (_nominalText.text.isEmpty) {
                                               setState(() {
                                                 _validate = true;
                                               });
-                                            }else if (int.parse(widget.saldo) < int.parse(_nominalText.text)) {
-                                              SweetAlert.show(
-                                                context,
+                                            } else if (int.parse(
+                                                    widget.saldo!) <
+                                                int.parse(_nominalText.text)) {
+                                              Alert(
+                                                context: context,
+                                                type: AlertType.warning,
                                                 title: "Peringatan",
-                                                subtitle: Text(
-                                                  "Saldo anda kurang",
-                                                  style: TextStyle(fontSize: 16, color: Colors.grey),
-                                                ),
-                                                style: SweetAlertStyle.confirm,
-                                              );
+                                                desc: "Saldo anda kurang",
+                                                buttons: [
+                                                  DialogButton(
+                                                    child: Text(
+                                                      "OK",
+                                                      style: TextStyle(
+                                                          color: Colors.green,
+                                                          fontSize: 20),
+                                                    ),
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                    width: 120,
+                                                  ),
+                                                ],
+                                              ).show();
                                             } else {
                                               Dialogs.showLoading(context);
-                                              String tgl = DateTime.now().year.toString() +
+                                              String tgl = DateTime.now()
+                                                      .year
+                                                      .toString() +
                                                   "-" +
-                                                  DateTime.now().month.toString() +
+                                                  DateTime.now()
+                                                      .month
+                                                      .toString() +
                                                   "-" +
                                                   DateTime.now().day.toString();
-                                              blocMember.penukaran(id, idPenukaran, idDesa, tgl, int.parse(_nominalText.text),
-                                                  _noHp.text.toString(), token);
-                                              blocMember.resGetPenukaran.listen((onData) {
+                                              blocMember.penukaran(
+                                                id!,
+                                                idPenukaran!,
+                                                idDesa!,
+                                                tgl,
+                                                int.parse(_nominalText.text),
+                                                _noHp.text.toString(),
+                                                token!,
+                                              );
+                                              blocMember.resGetPenukaran
+                                                  .listen((onData) {
                                                 if (onData.status == true) {
-                                                  SweetAlert.show(context,
-                                                      title: "Success",
-                                                      subtitle: Center(
+                                                  Alert(
+                                                    context: context,
+                                                    type: AlertType.success,
+                                                    title: "Success",
+                                                    desc:
+                                                        "Permintaan anda sedang di proses admin\n terimakasih",
+                                                    buttons: [
+                                                      DialogButton(
                                                         child: Text(
-                                                          "Permintaan anda sedang di proses admin\n terimakasih",
-                                                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                                                          textAlign: TextAlign.center,
+                                                          "OK",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.green,
+                                                              fontSize: 20),
                                                         ),
-                                                      ),
-                                                      style: SweetAlertStyle.success,
-                                                      showCancelButton: false, onPress: (bool isConfirm) {
-                                                        if (isConfirm) {
+                                                        onPressed: () {
                                                           Navigator.of(context)
-                                                              .pushNamedAndRemoveUntil('/controller', (Route<dynamic> route) => false);
-                                                          return false;
-                                                        }
-                                                      });
+                                                              .pushNamedAndRemoveUntil(
+                                                            '/controller',
+                                                            (Route<dynamic>
+                                                                    route) =>
+                                                                false,
+                                                          );
+                                                        },
+                                                        width: 120,
+                                                      ),
+                                                    ],
+                                                  ).show();
                                                 }
                                               });
                                             }
                                           }
                                         },
                                         child: Container(
-                                          width: MediaQuery.of(context).size.width / 2 - 50,
-                                          padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                                          width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2 -
+                                              50,
+                                          padding: EdgeInsets.only(
+                                              top: 15.0, bottom: 15.0),
                                           decoration: BoxDecoration(
                                             color: Colors.green[300],
-                                            borderRadius: BorderRadius.circular(12.0),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
                                           ),
                                           child: Text(
                                             "TUKAR",
-                                            style: TextStyle(color: Colors.white),
+                                            style:
+                                                TextStyle(color: Colors.white),
                                             textAlign: TextAlign.center,
                                           ),
                                         ),

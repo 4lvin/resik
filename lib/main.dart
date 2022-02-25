@@ -1,7 +1,6 @@
-import 'package:b_sampah/src/app.dart';
+import 'package:new_resik/src/app.dart';
 import 'package:flutter/material.dart';
 
-void main(){
+void main() {
   runApp(App());
 }
-

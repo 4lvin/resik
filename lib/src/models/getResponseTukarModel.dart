@@ -11,25 +11,27 @@ class GetResponseTukarModel {
     this.message,
   });
 
-  bool status;
-  Data data;
-  String message;
+  bool? status;
+  Data? data;
+  String? message;
 
-  factory GetResponseTukarModel.fromRawJson(String str) => GetResponseTukarModel.fromJson(json.decode(str));
+  factory GetResponseTukarModel.fromRawJson(String str) =>
+      GetResponseTukarModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory GetResponseTukarModel.fromJson(Map<String, dynamic> json) => GetResponseTukarModel(
-    status: json["status"],
-    data: Data.fromJson(json["data"]),
-    message: json["message"],
-  );
+  factory GetResponseTukarModel.fromJson(Map<String, dynamic> json) =>
+      GetResponseTukarModel(
+        status: json["status"],
+        data: Data.fromJson(json["data"]),
+        message: json["message"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "data": data.toJson(),
-    "message": message,
-  };
+        "status": status,
+        "data": data!.toJson(),
+        "message": message,
+      };
 }
 
 class Data {
@@ -37,17 +39,17 @@ class Data {
     this.idTukar,
   });
 
-  String idTukar;
+  String? idTukar;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    idTukar: json["id_tukar"],
-  );
+        idTukar: json["id_tukar"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id_tukar": idTukar,
-  };
+        "id_tukar": idTukar,
+      };
 }

@@ -1,11 +1,10 @@
-import 'package:b_sampah/src/blocs/memberBloc.dart';
-import 'package:b_sampah/src/pref/preference.dart';
-import 'package:b_sampah/src/ui/utils/colors.dart';
-import 'package:b_sampah/src/ui/utils/dialogAlert/sweetDialog.dart';
-import 'package:b_sampah/src/ui/utils/loading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:new_resik/src/blocs/memberBloc.dart';
+import 'package:new_resik/src/pref/preference.dart';
+import 'package:new_resik/src/ui/utils/colors.dart';
+import 'package:new_resik/src/ui/utils/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:toast/toast.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class UbahPinPage extends StatefulWidget {
   @override
@@ -40,7 +39,7 @@ class _UbahPinPageState extends State<UbahPinPage> {
               child: TextFormField(
                 style: TextStyle(height: 1),
                 obscureText: passwordVisible,
-                inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                // inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                 decoration: InputDecoration(
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -60,7 +59,7 @@ class _UbahPinPageState extends State<UbahPinPage> {
                     border: OutlineInputBorder(),
                     hintText: 'Masukkan Pin Lama Anda',
                     errorStyle:
-                    TextStyle(color: Colors.redAccent, fontSize: 12.0),
+                        TextStyle(color: Colors.redAccent, fontSize: 12.0),
                     errorText: _pinLama.text.length < 6 && _validate
                         ? 'Pin lama harus diisi dan mengandung 6 angka!'
                         : null),
@@ -75,7 +74,7 @@ class _UbahPinPageState extends State<UbahPinPage> {
               child: TextFormField(
                 style: TextStyle(height: 1),
                 obscureText: passwordBaruVisible,
-                inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                // inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                 decoration: InputDecoration(
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -95,7 +94,7 @@ class _UbahPinPageState extends State<UbahPinPage> {
                     border: OutlineInputBorder(),
                     hintText: 'Masukkan Pin Baru Anda',
                     errorStyle:
-                    TextStyle(color: Colors.redAccent, fontSize: 12.0),
+                        TextStyle(color: Colors.redAccent, fontSize: 12.0),
                     errorText: _pinBaru.text.length < 6 && _validate
                         ? 'Pin baru harus diisi dan mengandung 6 angka!'
                         : null),
@@ -136,59 +135,69 @@ class _UbahPinPageState extends State<UbahPinPage> {
       ),
     );
   }
-  _saveChangePin(){
+
+  _saveChangePin() {
     Dialogs.showLoading(context);
     getId().then((onValue) {
       getToken().then((token) {
         setState(() {
           blocMember.ubahPin(onValue, token, _pinLama.text, _pinBaru.text);
-          blocMember.resUbahPin.listen((data){
-            if(data.status == true){
+          blocMember.resUbahPin.listen((data) {
+            if (data.status == true) {
               Future.delayed(Duration(seconds: 2)).then((value) {
                 Dialogs.dismiss(context);
               });
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil('/controllPage', (Route<dynamic> route) => false);
-            }else{
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/controllPage', (Route<dynamic> route) => false);
+            } else {
               Future.delayed(Duration(seconds: 2)).then((value) {
                 Dialogs.dismiss(context);
               });
-              Toast.show(data.message, context,
-                  duration: 3, gravity: Toast.BOTTOM);
+              Fluttertoast.showToast(
+                msg: data.message!,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+              );
             }
-          }).onError((e){
+          }).onError((e) {
             Future.delayed(Duration(seconds: 2)).then((value) {
               Dialogs.dismiss(context);
             });
-            Toast.show(e.toString(), context,
-                duration: 3, gravity: Toast.BOTTOM);
+            Fluttertoast.showToast(
+              msg: e.toString(),
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+            );
           });
         });
       });
     });
   }
+
   _confirmSave() {
-    SweetAlert.show(context,
-        title: "Konfirmasi",
-        subtitle: Container(
-            width: 250,
-            child: Center(
-              child: Text(
-                "Apakah anda yakin mengganti pin?",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-            )),
-        style: SweetAlertStyle.confirm,
-        cancelButtonText: "Tidak",
-        confirmButtonText: "YA",
-        confirmButtonColor: Color(0xff96d873),
-        showCancelButton: true, onPress: (bool isConfirm) {
-          if (isConfirm) {
-            Navigator.pop(context);
-            _saveChangePin();
-            return false;
-          }
-        });
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "Konfirmasi",
+      desc: "Apakah anda yakin mengganti pin?",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "YA",
+            style: TextStyle(color: Colors.green, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          width: 120,
+        ),
+        DialogButton(
+          child: Text(
+            "Tidak",
+            style: TextStyle(color: Colors.red, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          width: 120,
+        )
+      ],
+    ).show();
   }
 }

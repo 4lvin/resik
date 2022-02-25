@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-class DetailNotif extends StatefulWidget {
-  DetailNotif({this.content,this.index,this.tgl});
 
-  int index;
-  String content;
-  String tgl;
+class DetailNotif extends StatefulWidget {
+  DetailNotif({this.content, this.index, this.tgl});
+
+  int? index;
+  String? content;
+  String? tgl;
   @override
   _DetailNotifState createState() => _DetailNotifState();
 }
@@ -42,9 +43,16 @@ class _DetailNotifState extends State<DetailNotif> {
                               padding: EdgeInsets.only(
                                   top: 50, left: 12, right: 12, bottom: 12),
                               width: MediaQuery.of(context).size.width - 30,
-                              child: Text(widget.content,style: TextStyle(height: 1.5,wordSpacing: 1.5),)),
-                          Container(margin: EdgeInsets.only(left: 12,bottom: 14),
-                              child: Text(widget.tgl,style: TextStyle(color: Colors.grey),))
+                              child: Text(
+                                widget.content!,
+                                style: TextStyle(height: 1.5, wordSpacing: 1.5),
+                              )),
+                          Container(
+                              margin: EdgeInsets.only(left: 12, bottom: 14),
+                              child: Text(
+                                widget.tgl!,
+                                style: TextStyle(color: Colors.grey),
+                              ))
                         ],
                       ),
                     ),
@@ -56,7 +64,8 @@ class _DetailNotifState extends State<DetailNotif> {
                       width: 70.0,
                       height: 70.0,
                       child: Hero(
-                          tag: "notif${widget.index}", child: Image.asset("assets/notif.png")),
+                          tag: "notif${widget.index}",
+                          child: Image.asset("assets/notif.png")),
 //                      decoration: BoxDecoration(
 //                          border: Border.all(color: Colors.white, width: 1),
 //                          shape: BoxShape.circle,

@@ -1,8 +1,8 @@
-import 'package:b_sampah/src/pref/preference.dart';
-import 'package:b_sampah/src/ui/ubahPinPage.dart';
-import 'package:b_sampah/src/ui/utils/dialogAlert/sweetDialog.dart';
+import 'package:new_resik/src/pref/preference.dart';
+import 'package:new_resik/src/ui/ubahPinPage.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:share/share.dart';
 
 class PengaturanPage extends StatefulWidget {
@@ -11,7 +11,6 @@ class PengaturanPage extends StatefulWidget {
 }
 
 class _PengaturanPageState extends State<PengaturanPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,10 +23,8 @@ class _PengaturanPageState extends State<PengaturanPage> {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                          color:
-                          Colors.grey[200]))),
+                  border:
+                      Border(bottom: BorderSide(color: Colors.grey.shade200))),
               margin: EdgeInsets.only(top: 12),
               child: InkWell(
                 onTap: () {
@@ -46,6 +43,7 @@ class _PengaturanPageState extends State<PengaturanPage> {
                   ),
                   title: Text("Ganti pin"),
                   trailing: IconButton(
+                    onPressed: () {},
                     icon: Icon(
                       Icons.arrow_forward_ios,
                       size: 16,
@@ -56,10 +54,8 @@ class _PengaturanPageState extends State<PengaturanPage> {
             ),
             Container(
               decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                          color:
-                          Colors.grey[200]))),
+                  border:
+                      Border(bottom: BorderSide(color: Colors.grey.shade200))),
               child: InkWell(
                 onTap: () {
                   // Navigator.push(
@@ -76,6 +72,7 @@ class _PengaturanPageState extends State<PengaturanPage> {
                   ),
                   title: Text("Kontak"),
                   trailing: IconButton(
+                    onPressed: () {},
                     icon: Icon(
                       Icons.arrow_forward_ios,
                       size: 20,
@@ -86,20 +83,16 @@ class _PengaturanPageState extends State<PengaturanPage> {
             ),
             Container(
               decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                          color:
-                          Colors.grey[200]))),
+                  border:
+                      Border(bottom: BorderSide(color: Colors.grey.shade200))),
               child: InkWell(
                 onTap: () {
-                  final RenderBox box =
-                  context.findRenderObject();
+                  final RenderObject? box = context.findRenderObject();
                   Share.share(
-                      'Download aplikasi Resik disini https://play.google.com/store/apps/details?id=com.jongjava.b_sampah',
-                      sharePositionOrigin:
-                      box.localToGlobal(
-                          Offset.zero) &
-                      box.size);
+                    'Download aplikasi Resik disini https://play.google.com/store/apps/details?id=com.jongjava.new_resik',
+                    // sharePositionOrigin:
+                    //     box.localToGlobal(Offset.zero) & box.size,
+                  );
                 },
                 child: ListTile(
                   leading: Icon(
@@ -109,6 +102,7 @@ class _PengaturanPageState extends State<PengaturanPage> {
                   ),
                   title: Text("Bagikan"),
                   trailing: IconButton(
+                    onPressed: () {},
                     icon: Icon(
                       Icons.arrow_forward_ios,
                       size: 20,
@@ -119,10 +113,8 @@ class _PengaturanPageState extends State<PengaturanPage> {
             ),
             Container(
               decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                          color:
-                          Colors.grey[200]))),
+                  border:
+                      Border(bottom: BorderSide(color: Colors.grey.shade200))),
               child: InkWell(
                 onTap: () {
                   _confirmExit();
@@ -133,6 +125,7 @@ class _PengaturanPageState extends State<PengaturanPage> {
                     children: <Widget>[
                       Center(child: Text("Keluar")),
                       IconButton(
+                        onPressed: () {},
                         icon: Icon(
                           Icons.exit_to_app,
                           size: 20,
@@ -149,34 +142,47 @@ class _PengaturanPageState extends State<PengaturanPage> {
             ),
             Center(
                 child: Text(
-                  "versi 1.0.5",
-                  style:
-                  TextStyle(color: Colors.grey),
-                ))
+              "versi 1.0.5",
+              style: TextStyle(color: Colors.grey),
+            ))
           ],
         ),
       ),
     );
   }
+
   _confirmExit() {
-    SweetAlert.show(context,
-        title: "Konfirmasi",
-        subtitle: Center(child: Text("Apakah Anda yakin akan keluar?")),
-        style: SweetAlertStyle.confirm,
-//        cancelButtonColor: Color(0xffababab),
-        cancelButtonText: "Tidak",
-        confirmButtonText: "YA",
-        confirmButtonColor: Color(0xff96d873),
-        showCancelButton: true, onPress: (bool isConfirm) {
-          if (isConfirm) {
+    Alert(
+      context: context,
+      type: AlertType.success,
+      title: "Konfirmasi",
+      desc: "Apakah Anda yakin akan keluar?",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "YA",
+            style: TextStyle(color: Colors.green, fontSize: 20),
+          ),
+          onPressed: () {
             rmvToken();
             rmvNama();
             rmvIdDesa();
             rmvId();
             Navigator.of(context).pop();
-            Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false);
-            return false;
-          }
-        });
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/login', (Route<dynamic> route) => false);
+          },
+          width: 120,
+        ),
+        DialogButton(
+          child: Text(
+            "Tidak",
+            style: TextStyle(color: Colors.red, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          width: 120,
+        )
+      ],
+    ).show();
   }
 }
