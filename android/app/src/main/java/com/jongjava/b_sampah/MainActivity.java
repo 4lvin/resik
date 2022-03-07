@@ -1,4 +1,4 @@
-package com.example.new_resik;
+package com.jongjava.b_sampah;
 
 import io.flutter.embedding.android.FlutterActivity;
 

@@ -28,6 +28,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   carousel_slider: ^4.0.0
+  change_app_package_name: ^1.0.0
   cupertino_icons: ^1.0.2
   floating_bottom_navigation_bar: ^1.5.2
   flutter:
