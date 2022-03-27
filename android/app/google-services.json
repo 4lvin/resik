@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "132365964740",
+    "project_id": "resik-3fadb",
+    "storage_bucket": "resik-3fadb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:132365964740:android:6ec6610d2ff793716f4091",
+        "android_client_info": {
+          "package_name": "com.jongjava.b_sampah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "132365964740-tuq0p8jcatoidn2hi68vnk2e3kbj58tj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jongjava.b_sampah",
+            "certificate_hash": "e82d59b442e56cd3b456b4ead961641d7715048c"
+          }
+        },
+        {
+          "client_id": "132365964740-9m1ircho9p3nojs26rnepddi6g9edpkj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ9mr5-BW7uh7UxjD5okm-gxcy_PDjL44"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "132365964740-9m1ircho9p3nojs26rnepddi6g9edpkj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

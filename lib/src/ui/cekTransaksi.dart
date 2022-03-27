@@ -130,6 +130,7 @@ class _CekTransaksiState extends State<CekTransaksi> {
                 itemBuilder: (BuildContext context, int i) {
                   var tgl = DateFormat('dd/MM/yyyy')
                       .format(snapshot.data!.data![i].tanggal!);
+
                   return Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -224,15 +225,14 @@ class _CekTransaksiState extends State<CekTransaksi> {
                                         Alert(
                                             context: context,
                                             title: "Scan me!",
-                                            content: Column(
-                                              children: <Widget>[
-                                                QrImage(
-                                                  data: snapshot
-                                                      .data!.data![i].id!,
-                                                  version: QrVersions.auto,
-                                                  size: 200.0,
-                                                ),
-                                              ],
+                                            content: Container(
+                                              width: 200,
+                                              height: 200,
+                                              child: QrImage(
+                                                data: "1234567890",
+                                                version: QrVersions.auto,
+                                                size: 200.0,
+                                              ),
                                             ),
                                             buttons: [
                                               DialogButton(

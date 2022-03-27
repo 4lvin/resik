@@ -1,5 +1,4 @@
 import 'package:new_resik/src/ui/controllerPage.dart';
-import 'package:new_resik/src/ui/home_page.dart';
 import 'package:new_resik/src/ui/login_page.dart';
 import 'package:new_resik/src/ui/splashScreen.dart';
 import 'package:flutter/material.dart';

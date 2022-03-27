@@ -1,10 +1,10 @@
 import 'dart:async';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:new_resik/src/blocs/memberBloc.dart';
 import 'package:new_resik/src/ui/cekPinPage.dart';
 import 'package:new_resik/src/ui/utils/colors.dart';
 import 'package:new_resik/src/ui/utils/loading.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,20 +17,23 @@ class _LoginPageState extends State<LoginPage> {
   var _password = TextEditingController();
   bool _validate = false;
   bool passwordVisible = true;
-  // FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
   String? tokenUser;
 
-  void showInSnackBar(BuildContext context, String value) {
-    Scaffold.of(context).showSnackBar(new SnackBar(content: new Text(value)));
+  void showInSnackBar(String value) {
+    Fluttertoast.showToast(
+      msg: value,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+    );
   }
 
   @override
   void initState() {
-    // _firebaseMessaging.getToken().then((token) {
-    //   setState(() {
-    //     tokenUser = token;
-    //   });
-    // });
+    FirebaseMessaging.instance.getToken().then((token) {
+      setState(() {
+        tokenUser = token;
+      });
+    });
     super.initState();
   }
 
@@ -195,11 +198,8 @@ class _LoginPageState extends State<LoginPage> {
                                             });
                                             FocusScope.of(context)
                                                 .requestFocus(new FocusNode());
-                                            Fluttertoast.showToast(
-                                              msg: "User tidak ditemukan!",
-                                              toastLength: Toast.LENGTH_SHORT,
-                                              gravity: ToastGravity.BOTTOM,
-                                            );
+                                            showInSnackBar(
+                                                "User tidak ditemukan!");
                                           }
                                         }).onError((e) {
                                           Future.delayed(Duration(seconds: 2))
@@ -208,11 +208,7 @@ class _LoginPageState extends State<LoginPage> {
                                           });
                                           FocusScope.of(context)
                                               .requestFocus(new FocusNode());
-                                          Fluttertoast.showToast(
-                                            msg: e.toString(),
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            gravity: ToastGravity.BOTTOM,
-                                          );
+                                          showInSnackBar(e.toString());
                                         });
                                       }
                                     },
