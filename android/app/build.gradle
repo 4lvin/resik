@@ -42,11 +42,10 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.jongjava.b_sampah"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        multiDexEnabled = true
     }
 
     signingConfigs {
