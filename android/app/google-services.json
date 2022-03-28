@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "132365964740-gnovuabg9b9oo0btp46ai13p1a9e976u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jongjava.b_sampah",
+            "certificate_hash": "c07820e21c5f1d6b452df87fd764c21b73aae5a0"
+          }
+        },
+        {
           "client_id": "132365964740-tuq0p8jcatoidn2hi68vnk2e3kbj58tj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
